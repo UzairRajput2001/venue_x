@@ -113,7 +113,7 @@ Widget build(BuildContext context) {
               ),
             ),
             const SizedBox(height: 20,),
-            TextField(
+            TextFormField(
               controller: _emailController,
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(

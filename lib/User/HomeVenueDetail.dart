@@ -8,13 +8,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 class VenueDetails extends StatefulWidget {
   final Venue venue;
 
-  const VenueDetails({Key? key, required this.venue}) : super(key: key);
+  const VenueDetails({super.key, required this.venue});
 
   @override
-  _VenueDetailsState createState() => _VenueDetailsState();
+  VenueDetailsState createState() => VenueDetailsState();
 }
 
-class _VenueDetailsState extends State<VenueDetails> {
+class VenueDetailsState extends State<VenueDetails> {
   late DateTime _selectedDate;
   late String _selectedEvent;
   late String _selectedCapacity;
@@ -45,7 +45,7 @@ class _VenueDetailsState extends State<VenueDetails> {
           'selectedEvent': widget.venue.event_type,
           'selectedCapacity': widget.venue.capacity,
           'status': 'pending', // Initial status is pending
-        });
+        }).then((DocumentReference doc) => print("Document ID: ${doc.id}")).catchError((error)=> print("Error $error"));
 
         // Navigate to the booking screen after adding the request
         Navigator.push(
@@ -63,13 +63,13 @@ class _VenueDetailsState extends State<VenueDetails> {
 
         // Show a success message
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Booking request sent')),
+          const SnackBar(content: Text('Booking request sent')),
         );
       }
     } catch (e) {
       // Show an error message if something goes wrong
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error sending booking request')),
+        const SnackBar(content: Text('Error sending booking request')),
       );
     }
   }
@@ -78,12 +78,12 @@ class _VenueDetailsState extends State<VenueDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Venue Details'),
+        title: const Text('Venue Details'),
       ),
       body: ListView(
         children: [
           // Image
-          Container(
+          SizedBox(
             height: 200.0,
             child: Image.network(
               widget.venue.imagePath,
@@ -95,7 +95,7 @@ class _VenueDetailsState extends State<VenueDetails> {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               widget.venue.name,
-              style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, fontFamily: 'Roboto'),
+              style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, fontFamily: 'Roboto'),
             ),
           ),
           // Description
@@ -107,7 +107,7 @@ class _VenueDetailsState extends State<VenueDetails> {
             ),
             child: Text(
               widget.venue.description,
-              style: TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
+              style: const TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
             ),
           ),
           // Address
@@ -115,7 +115,7 @@ class _VenueDetailsState extends State<VenueDetails> {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               'Address: ${widget.venue.address}',
-              style: TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
+              style: const TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
             ),
           ),
           // Capacity
@@ -123,7 +123,7 @@ class _VenueDetailsState extends State<VenueDetails> {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               'Capacity: ${widget.venue.capacity}',
-              style: TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
+              style: const TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
             ),
           ),
           // Event Type
@@ -131,7 +131,7 @@ class _VenueDetailsState extends State<VenueDetails> {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               'Event Type: ${widget.venue.event_type}',
-              style: TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
+              style: const TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
             ),
           ),
           // Location
@@ -139,7 +139,8 @@ class _VenueDetailsState extends State<VenueDetails> {
             padding: const EdgeInsets.all(8.0),
             child: Text(
               'Location: ${widget.venue.location}',
-              style: TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
+              style: const TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
+              
             ),
           ),
           Padding(
@@ -174,11 +175,11 @@ class _VenueDetailsState extends State<VenueDetails> {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
-              onPressed: _addBookingRequest,
+              onPressed:()async{await _addBookingRequest();},
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.deepPurpleAccent,
               ),
-              child: Text(
+              child: const Text(
                 'Book Now',
                 style: TextStyle(color: Colors.white),
               ),

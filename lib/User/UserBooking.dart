@@ -9,13 +9,13 @@ class BookingScreen extends StatelessWidget {
   final String userId; // User ID
 
   const BookingScreen({
-    Key? key,
+    super.key,
     required this.venueName,
     required this.selectedDate,
     required this.selectedCapacity,
     required this.selectedEvent,
     required this.userId, // User ID
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

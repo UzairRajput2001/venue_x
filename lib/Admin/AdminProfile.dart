@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -18,10 +19,10 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: FutureBuilder<DocumentSnapshot>(
-          future: FirebaseFirestore.instance.collection('venueOwners').doc('venueOwnerId').get(),
+          future: FirebaseFirestore.instance.collection('venueOwners').doc(FirebaseAuth.instance.currentUser!.uid).get(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const CircularProgressIndicator();
+              return const SizedBox( height:20,width: 20,child: Center(child:  CircularProgressIndicator(),),);
             }
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');

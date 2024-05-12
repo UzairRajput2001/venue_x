@@ -12,7 +12,6 @@ class OwnerHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
     String userEmail = user?.email ?? 'No user signed in';
-
     return Scaffold(
       body: Center(
         child: Column(

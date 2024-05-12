@@ -1,18 +1,15 @@
-
-
-
-// import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AdminBookingScreen extends StatefulWidget {
-  const AdminBookingScreen({Key? key, required String venueOwnerId}) : super(key: key);
+  const AdminBookingScreen({super.key, required String venueOwnerId});
 
   @override
-  _AdminBookingScreenState createState() => _AdminBookingScreenState();
+  AdminBookingScreenState createState() => AdminBookingScreenState();
 }
 
-class _AdminBookingScreenState extends State<AdminBookingScreen> {
+class AdminBookingScreenState extends State<AdminBookingScreen> {
   late List<BookingRequest> _bookingRequests;
 
  @override
@@ -24,10 +21,12 @@ void initState() {
 
   Future<void> _fetchBookingRequests() async {
     try {
-      final querySnapshot = await FirebaseFirestore.instance.collection('bookingRequests').get();
+      final getVenueList=await FirebaseFirestore.instance.collection("venueOwners").doc(FirebaseAuth.instance.currentUser!.uid).get();
+      List<String> venueList = getVenueList.get('venues').cast<String>();
+      final querySnapshot = await FirebaseFirestore.instance.collection('bookingRequests').where("venueName",whereIn:venueList).get();
       final List<BookingRequest> requests = [];
-      querySnapshot.docs.forEach((doc) {
-        final data = doc.data() as Map<String, dynamic>;
+      for (var doc in querySnapshot.docs) {
+        final data = doc.data();
         final request = BookingRequest(
           venueName: data['venueName'] ?? '',
           selectedDate: (data['selectedDate'] as Timestamp).toDate(),
@@ -35,7 +34,7 @@ void initState() {
           id: doc.id,
         );
         requests.add(request);
-      });
+      }
       setState(() {
         _bookingRequests = requests;
       });
