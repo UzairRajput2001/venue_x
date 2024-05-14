@@ -68,13 +68,13 @@ void initState() {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          icon: Icon(Icons.check),
+                          icon: const Icon(Icons.check),
                           onPressed: () {
                             _acceptBookingRequest(_bookingRequests[index].id);
                           },
                         ),
                         IconButton(
-                          icon: Icon(Icons.close),
+                          icon: const Icon(Icons.close),
                           onPressed: () {
                             _rejectBookingRequest(_bookingRequests[index].id);
                           },
@@ -85,7 +85,7 @@ void initState() {
                 );
               },
             )
-          : Center(child: CircularProgressIndicator()),
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 

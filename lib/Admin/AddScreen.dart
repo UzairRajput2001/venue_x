@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -36,18 +37,18 @@ class _AddVenueScreenState extends State<AddVenueScreen> {
 
   Future<void> _uploadVenue() async {
     // Upload image to Firebase Storage
+    String imageUrl="";
     firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
         .ref()
         .child('venues')
         .child('${DateTime.now().millisecondsSinceEpoch}.jpg');
-    await ref.putFile(_image);
-
-    // Get the download URL of the image
-    String imageUrl = await ref.getDownloadURL();
-    
-
-    // Create venue details object
+    if(_image.path.isNotEmpty)
+    {
+      await ref.putFile(_image);
+      imageUrl = await ref.getDownloadURL();
+    }
     Map<String, dynamic> venueDetails = {
+      'userId':FirebaseAuth.instance.currentUser!.uid,
       'name': _venueName,
       'description': _venueDescription,
       'image_url': imageUrl,
@@ -60,6 +61,13 @@ class _AddVenueScreenState extends State<AddVenueScreen> {
 
     // Upload venue details to Firestore
     await FirebaseFirestore.instance.collection('venues').add(venueDetails);
+    CollectionReference venuesRef = FirebaseFirestore.instance.collection('venueOwners');
+    DocumentReference venueDocRef = venuesRef.doc(FirebaseAuth.instance.currentUser!.uid);
+  // Update the document
+    await venueDocRef.update({
+    'venues': FieldValue.arrayUnion([_venueName]),
+    });
+  
 
     // Show success dialog
     showDialog(
@@ -205,7 +213,7 @@ class _AddVenueScreenState extends State<AddVenueScreen> {
               ),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _uploadVenue,
+                onPressed:()async{ await _uploadVenue();},
                 child: const Text('Save Venue'),
               ),
             ],

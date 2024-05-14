@@ -1,133 +1,119 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:collection/collection.dart';
 
-class Venue {
-  final String name;
+class Venues {
   final String address;
-  final String phone;
-  final String email;
-  final List<String> venues; 
-  final List<DateTime> availableDates;
+  final List<String> availableDates;
   final int capacity;
   final String description;
   final String eventType;
   final String imageUrl;
+  final String name;
+  final String userId;
   final String venueLocation;
 
-  Venue({
-    required this.name,
+  Venues({
     required this.address,
-    required this.phone,
-    required this.email,
-    required this.venues,
     required this.availableDates,
     required this.capacity,
     required this.description,
     required this.eventType,
     required this.imageUrl,
+    required this.name,
+    required this.userId,
     required this.venueLocation,
   });
 
-  Venue copyWith({
-    String? name,
+  Venues copyWith({
     String? address,
-    String? phone,
-    String? email,
-    List<String>? venues,
-    List<DateTime>? availableDates,
+    List<String>? availableDates,
     int? capacity,
     String? description,
     String? eventType,
     String? imageUrl,
+    String? name,
+    String? userId,
     String? venueLocation,
   }) {
-    return Venue(
-      name: name ?? this.name,
+    return Venues(
       address: address ?? this.address,
-      phone: phone ?? this.phone,
-      email: email ?? this.email,
-      venues: venues ?? this.venues,
       availableDates: availableDates ?? this.availableDates,
       capacity: capacity ?? this.capacity,
       description: description ?? this.description,
       eventType: eventType ?? this.eventType,
       imageUrl: imageUrl ?? this.imageUrl,
+      name: name ?? this.name,
+      userId: userId ?? this.userId,
       venueLocation: venueLocation ?? this.venueLocation,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'name': name,
       'address': address,
-      'phone': phone,
-      'email': email,
-      'venues': venues,
-      'availableDates': availableDates.map((x) => x.millisecondsSinceEpoch).toList(),
+      'availableDates': availableDates,
       'capacity': capacity,
       'description': description,
       'eventType': eventType,
       'imageUrl': imageUrl,
+      'name': name,
+      'userId': userId,
       'venueLocation': venueLocation,
     };
   }
 
-  factory Venue.fromMap(Map<String, dynamic> map) {
-    return Venue(
-      name: map['name'] as String,
+  factory Venues.fromMap(Map<String, dynamic> map) {
+    return Venues(
       address: map['address'] as String,
-      phone: map['phone'] as String,
-      email: map['email'] as String,
-      venues: List<String>.from((map['venues'] as List<String>)),
-      availableDates: List<DateTime>.from((map['availableDates'] as List<int>).map<DateTime>((x) => DateTime.fromMillisecondsSinceEpoch(x),),),
+      availableDates: List<String>.from((map['availableDates'] ??[])),
       capacity: map['capacity'] as int,
       description: map['description'] as String,
-      eventType: map['eventType'] as String,
-      imageUrl: map['imageUrl'] as String,
-      venueLocation: map['venueLocation'] as String,
+      eventType: map['eventType'] ?? "",
+      imageUrl: map['imageUrl'] ??"",
+      name: map['name'] as String,
+      userId: map['userId'] as String,
+      venueLocation: map['venueLocation']?? "",
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Venue.fromJson(String source) => Venue.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Venues.fromJson(String source) => Venues.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'Venue(name: $name, address: $address, phone: $phone, email: $email, venues: $venues, availableDates: $availableDates, capacity: $capacity, description: $description, eventType: $eventType, imageUrl: $imageUrl, venueLocation: $venueLocation)';
+    return 'Venues(address: $address, availableDates: $availableDates, capacity: $capacity, description: $description, eventType: $eventType, imageUrl: $imageUrl, name: $name, userId: $userId, venueLocation: $venueLocation)';
   }
 
   @override
-  bool operator ==(covariant Venue other) {
+  bool operator ==(covariant Venues other) {
     if (identical(this, other)) return true;
+    final listEquals = const DeepCollectionEquality().equals;
   
     return 
-      other.name == name &&
       other.address == address &&
-      other.phone == phone &&
-      other.email == email &&
-      listEquals(other.venues, venues) &&
       listEquals(other.availableDates, availableDates) &&
       other.capacity == capacity &&
       other.description == description &&
       other.eventType == eventType &&
       other.imageUrl == imageUrl &&
+      other.name == name &&
+      other.userId == userId &&
       other.venueLocation == venueLocation;
   }
 
   @override
   int get hashCode {
-    return name.hashCode ^
-      address.hashCode ^
-      phone.hashCode ^
-      email.hashCode ^
-      venues.hashCode ^
+    return address.hashCode ^
       availableDates.hashCode ^
       capacity.hashCode ^
       description.hashCode ^
       eventType.hashCode ^
       imageUrl.hashCode ^
+      name.hashCode ^
+      userId.hashCode ^
       venueLocation.hashCode;
   }
 }

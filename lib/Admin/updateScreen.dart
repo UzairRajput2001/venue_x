@@ -7,13 +7,16 @@ class UpdateVenueScreen extends StatefulWidget {
   const UpdateVenueScreen({super.key});
 
   @override
-  _UpdateVenueScreenState createState() => _UpdateVenueScreenState();
+  UpdateVenueScreenState createState() => UpdateVenueScreenState();
 }
 
-class _UpdateVenueScreenState extends State<UpdateVenueScreen> {
+class UpdateVenueScreenState extends State<UpdateVenueScreen> {
+
   final List<File?> _images = [null, null, null];
   final ImagePicker _picker = ImagePicker();
-  String _location = '';
+  final TextEditingController venueNameController=TextEditingController();
+  final TextEditingController venueDescriptionController=TextEditingController();
+  final TextEditingController venueLocationController=TextEditingController();
 
   Future<void> _getImage(int index) async {
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
@@ -23,6 +26,24 @@ class _UpdateVenueScreenState extends State<UpdateVenueScreen> {
       });
     }
   }
+
+  // void updateData()async{
+  //   final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //   CollectionReference collection = firestore.collection('venues');
+  //   DocumentReference document = collection.doc();
+  //   Map<String, dynamic> updatedData = {
+  //     'fieldName1': ,
+  //     'fieldName2': newValue2,
+  //     ""
+  // // ... other fields to update
+  //   };
+
+  // document.update(updatedData).then((_) {
+  //   print('Document updated successfully!');
+  // }).catchError((error) {
+  //     print('Error updating document: $error');
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -51,22 +72,24 @@ class _UpdateVenueScreenState extends State<UpdateVenueScreen> {
               ],
             ),
             const SizedBox(height: 20),
-            const TextField(
-              decoration: InputDecoration(
+             TextField(
+             controller:  venueNameController,
+              decoration:const  InputDecoration(
                 labelText: 'Venue Name',
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 10),
-            const TextField(
-              decoration: InputDecoration(
+             TextField(
+              controller: venueDescriptionController,
+              decoration: const InputDecoration(
                 labelText: 'Venue Description',
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 10),
             TextField(
-              onChanged: (value) => _location = value,
+              controller: venueLocationController,
               decoration: const InputDecoration(
                 labelText: 'Location',
                 border: OutlineInputBorder(),
@@ -76,7 +99,6 @@ class _UpdateVenueScreenState extends State<UpdateVenueScreen> {
             // Add more fields as needed
             ElevatedButton(
               onPressed: () {
-                // Logic to update the venue in the database
                 Navigator.pop(context); // Return to the previous screen
               },
               child: const Text('Update'),
