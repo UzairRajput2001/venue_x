@@ -6,7 +6,7 @@ class Venue {
   final String address;
   final String location;
   final int capacity;
-  final List<DateTime> dates; // Change the type to List<DateTime>
+  final List<dynamic> dates; // Change the type to List<DateTime>
 
   Venue({
     required this.imagePath,
@@ -17,8 +17,5 @@ class Venue {
     required this.description,
     required this.event_type,
     required this.location,
-
-  
-  
   });
 }

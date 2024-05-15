@@ -1,10 +1,20 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UpdateVenueScreen extends StatefulWidget {
-  const UpdateVenueScreen({super.key});
+  const UpdateVenueScreen({super.key, required this.venueName, 
+  required this.venueDescription, 
+  required this.venueLocation, required this.imageUrl,
+  });
+  final String venueName;
+  final String venueDescription;
+  final String venueLocation;
+  final String imageUrl;
 
   @override
   UpdateVenueScreenState createState() => UpdateVenueScreenState();
@@ -12,7 +22,7 @@ class UpdateVenueScreen extends StatefulWidget {
 
 class UpdateVenueScreenState extends State<UpdateVenueScreen> {
 
-  final List<File?> _images = [null, null, null];
+   File? _images;
   final ImagePicker _picker = ImagePicker();
   final TextEditingController venueNameController=TextEditingController();
   final TextEditingController venueDescriptionController=TextEditingController();
@@ -22,28 +32,79 @@ class UpdateVenueScreenState extends State<UpdateVenueScreen> {
     final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       setState(() {
-        _images[index] = File(pickedFile.path);
+        _images = File(pickedFile.path);
       });
     }
   }
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      venueNameController.text=widget.venueName;
+      venueDescriptionController.text=widget.venueDescription;
+      venueLocationController.text=widget.venueLocation;
+    });
+  }
 
-  // void updateData()async{
-  //   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  //   CollectionReference collection = firestore.collection('venues');
-  //   DocumentReference document = collection.doc();
-  //   Map<String, dynamic> updatedData = {
-  //     'fieldName1': ,
-  //     'fieldName2': newValue2,
-  //     ""
-  // // ... other fields to update
-  //   };
-
-  // document.update(updatedData).then((_) {
-  //   print('Document updated successfully!');
-  // }).catchError((error) {
-  //     print('Error updating document: $error');
-  //   });
-  // }
+  void updateData()async{
+  final userUid = FirebaseAuth.instance.currentUser!.uid;
+    String imageUrl="";
+    firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('venues')
+        .child('${DateTime.now().millisecondsSinceEpoch}.jpg');
+    if(_images!.path.isNotEmpty)
+    {
+      await ref.putFile(_images!);
+      imageUrl = await ref.getDownloadURL();
+    }
+  final venueRef = FirebaseFirestore.instance
+  .collection('venues')
+  .where('userId', isEqualTo: userUid)
+  .where('name',isEqualTo: widget.venueName);
+  venueRef.get().then((querySnapshot) {
+    final venueDoc = querySnapshot.docs[0];
+    venueDoc.reference.update({
+      'name': venueNameController.text,
+      'description': venueDescriptionController.text,
+      'venue_location': venueLocationController.text,
+      "image_url":imageUrl,
+      }).then((value) => showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Success'),
+          content: const Text('Venue updated successfully.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    )).onError((error, stackTrace) => showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Failed'),
+          content:  Text(error.toString()),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                // Reset the form
+              },
+            ),
+          ],
+        );
+      },
+      ));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,11 +125,11 @@ class UpdateVenueScreenState extends State<UpdateVenueScreen> {
             ),
             const SizedBox(height: 20),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 _buildImagePickerButton(0),
-                _buildImagePickerButton(1),
-                _buildImagePickerButton(2),
+                // _buildImagePickerButton(1),
+                // _buildImagePickerButton(2),
               ],
             ),
             const SizedBox(height: 20),
@@ -99,7 +160,7 @@ class UpdateVenueScreenState extends State<UpdateVenueScreen> {
             // Add more fields as needed
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context); // Return to the previous screen
+               updateData();// Return to the previous screen
               },
               child: const Text('Update'),
             ),
@@ -111,7 +172,7 @@ class UpdateVenueScreenState extends State<UpdateVenueScreen> {
 
   Widget _buildImagePickerButton(int index) {
     return IconButton(
-      icon: _images[index] != null ? Image.file(_images[index]!) : const Icon(Icons.add),
+      icon: _images != null ? SizedBox(height: 100,width:200, child: Image.file(_images!)) : const Icon(Icons.add),
       onPressed: () => _getImage(index),
     );
   }

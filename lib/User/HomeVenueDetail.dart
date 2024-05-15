@@ -85,7 +85,7 @@ class VenueDetailsState extends State<VenueDetails> {
           // Image
           SizedBox(
             height: 200.0,
-            child: Image.network(
+            child:widget.venue.imagePath.isEmpty?const SizedBox.shrink() :Image.network(
               widget.venue.imagePath,
               fit: BoxFit.cover,
             ),
@@ -160,7 +160,7 @@ class VenueDetailsState extends State<VenueDetails> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: widget.venue.dates.map((date) {
                         return Text(
-                          DateFormat('yyyy-MM-dd').format(date),
+                          date,
                           style: const TextStyle(fontSize: 16),
                         );
                       }).toList(),

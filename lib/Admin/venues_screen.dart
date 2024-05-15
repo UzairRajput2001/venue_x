@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:venue_x/Admin/DeleteVenueScreen.dart';
+import 'package:venue_x/Admin/updateScreen.dart';
 import 'package:venue_x/model.dart/venue_model.dart';
 
 class VenueScreen extends StatefulWidget {
-  const VenueScreen({super.key});
+  const VenueScreen({super.key, required this.routeName});
+  final String routeName;
 
   @override
   State<VenueScreen> createState() => _VenueScreenState();
@@ -12,7 +15,7 @@ class VenueScreen extends StatefulWidget {
 
 class _VenueScreenState extends State<VenueScreen> {
  List<Venues>? venues=[];
- bool isLoading=false;
+  bool isLoading=false;
   Future<void> getVenues()async{
   setState(() {
     isLoading = true;
@@ -35,27 +38,35 @@ class _VenueScreenState extends State<VenueScreen> {
   @override
   void initState()  {
     super.initState();
-     getVenues().then((value) => print("Values printed"));
+    getVenues().then((value) => print("Values printed"));
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:const  Text("Venues")),
+      appBar: AppBar(title:const  Text("Edit Venues"),centerTitle: true),
       backgroundColor: Colors.white,
       body:isLoading?const Center(child: CircularProgressIndicator()): ListView.builder(
         itemCount: venues!.length,
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (context) => VenueDetails(
-              //       venue: venue,
-              //     ),
-              //   ),
-              // );
-             
+              if(widget.routeName=="update")
+              {
+                  Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>  UpdateVenueScreen(venueName: venues![index].name, 
+                  venueDescription: venues![index].description, 
+                  venueLocation: venues![index].venueLocation, imageUrl: venues![index].imageUrl,
+                  ),
+                ),
+              );
+              }
+              else{
+                Navigator.push(context, MaterialPageRoute(builder: (context) =>  DeleteVenueScreen(venueName: venues![index].name, 
+                  venueDescription: venues![index].description, 
+                  location: venues![index].venueLocation,),),);
+              }
             },
             child: Container(
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),

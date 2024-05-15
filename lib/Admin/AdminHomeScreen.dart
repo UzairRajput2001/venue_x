@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:venue_x/Admin/AddScreen.dart';
-import 'package:venue_x/Admin/DeleteVenueScreen.dart';
 import 'package:venue_x/Admin/venues_screen.dart';
 
 class OwnerHomePage extends StatelessWidget {
@@ -42,7 +40,7 @@ class OwnerHomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const VenueScreen()),
+                  MaterialPageRoute(builder: (context) => const VenueScreen(routeName: 'update',)),
                 );
               },
               style: ElevatedButton.styleFrom(
@@ -56,7 +54,7 @@ class OwnerHomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const DeleteVenueScreen(venueName: '', venueDescription: '', location: '',)),
+                  MaterialPageRoute(builder: (context) =>const  VenueScreen(routeName: "delete")),
                 );
               },
               style: ElevatedButton.styleFrom(

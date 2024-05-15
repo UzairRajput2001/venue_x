@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 import 'package:venue_x/User/HomeVenueDetail.dart';
 import 'package:venue_x/model.dart/venuedetailmodel.dart';
 
@@ -35,6 +34,7 @@ class _DetailsVenuesState extends State<DetailsVenues> {
       setState(() {
         venues = fetchedVenues;
       });
+      print("venue Lenght ${venues.length}");
     });
   }
 
@@ -51,9 +51,7 @@ class _DetailsVenuesState extends State<DetailsVenues> {
           imagePath: data['image_url'],
           name: data['name'],
           capacity: data['capacity'],
-          dates: (data['available_dates'] as List<dynamic>)
-              .map((timestamp) => (timestamp as Timestamp).toDate())
-              .toList(),
+          dates: (data['available_dates']),
           description: data['description'],
           address: data['address'],
           event_type: data['event_type'],
@@ -91,6 +89,7 @@ class _DetailsVenuesState extends State<DetailsVenues> {
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
@@ -105,7 +104,7 @@ class _DetailsVenuesState extends State<DetailsVenues> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
+                    child:venue.imagePath.isEmpty?const SizedBox.shrink() :Image.network(
                       venue.imagePath,
                       height: 150,
                       fit: BoxFit.cover,
@@ -141,7 +140,7 @@ class _DetailsVenuesState extends State<DetailsVenues> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: venue.dates.map((date) {
                             return Text(
-                              DateFormat('yyyy-MM-dd').format(date),
+                              date,
                               style: const TextStyle(fontSize: 12),
                             );
                           }).toList(),

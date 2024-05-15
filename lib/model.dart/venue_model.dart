@@ -1,7 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
-
-import 'package:collection/collection.dart';
 
 class Venues {
   final String address;
@@ -60,7 +57,7 @@ class Venues {
       'imageUrl': imageUrl,
       'name': name,
       'userId': userId,
-      'venueLocation': venueLocation,
+      'venue_location': venueLocation,
     };
   }
 
@@ -85,35 +82,5 @@ class Venues {
   @override
   String toString() {
     return 'Venues(address: $address, availableDates: $availableDates, capacity: $capacity, description: $description, eventType: $eventType, imageUrl: $imageUrl, name: $name, userId: $userId, venueLocation: $venueLocation)';
-  }
-
-  @override
-  bool operator ==(covariant Venues other) {
-    if (identical(this, other)) return true;
-    final listEquals = const DeepCollectionEquality().equals;
-  
-    return 
-      other.address == address &&
-      listEquals(other.availableDates, availableDates) &&
-      other.capacity == capacity &&
-      other.description == description &&
-      other.eventType == eventType &&
-      other.imageUrl == imageUrl &&
-      other.name == name &&
-      other.userId == userId &&
-      other.venueLocation == venueLocation;
-  }
-
-  @override
-  int get hashCode {
-    return address.hashCode ^
-      availableDates.hashCode ^
-      capacity.hashCode ^
-      description.hashCode ^
-      eventType.hashCode ^
-      imageUrl.hashCode ^
-      name.hashCode ^
-      userId.hashCode ^
-      venueLocation.hashCode;
   }
 }
