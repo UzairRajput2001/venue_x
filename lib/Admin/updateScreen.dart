@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class UpdateVenueScreen extends StatefulWidget {
   const UpdateVenueScreen({super.key, required this.venueName, 
@@ -69,6 +70,7 @@ class UpdateVenueScreenState extends State<UpdateVenueScreen> {
       'description': venueDescriptionController.text,
       'venue_location': venueLocationController.text,
       "image_url":imageUrl,
+      "available_dates":_selectedDates,
       }).then((value) => showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -105,6 +107,49 @@ class UpdateVenueScreenState extends State<UpdateVenueScreen> {
       ));
     });
   }
+final List<DateTime> _selectedDates = []; // List to store selected dates
+final TextEditingController _dateController = TextEditingController();
+
+Future<void> _selectDate(BuildContext context) async {
+  final DateTime? pickedDate = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime.now().subtract(Duration(days: 365)), // Allow selection of past year for a year
+    lastDate: DateTime(DateTime.now().year + 1),
+  );
+  if (pickedDate != null) {
+    setState(() {
+      _selectedDates.add(pickedDate);
+      _dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+    });
+  }
+}
+
+Widget _buildSelectedDatesList() {
+  if (_selectedDates.isEmpty) {
+    return const Text('No dates selected yet.');
+  }
+
+  return ListView.builder(
+    shrinkWrap: true, // Prevent excessive scrolling for short lists
+    itemCount: _selectedDates.length,
+    itemBuilder: (context, index) {
+      final selectedDate = _selectedDates[index];
+      return ListTile(
+        title: Text(DateFormat('yyyy-MM-dd').format(selectedDate)),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () {
+            setState(() {
+              _selectedDates.removeAt(index);
+              _dateController.text = ''; // Clear the text field on removal
+            });
+          },
+        ),
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -157,11 +202,15 @@ class UpdateVenueScreenState extends State<UpdateVenueScreen> {
               ),
             ),
             const SizedBox(height: 10),
-            // Add more fields as needed
+            TextField(
+                controller: _dateController,
+                readOnly: true,
+                onTap: () => _selectDate(context),
+                decoration: const InputDecoration(labelText: 'Select Date'),
+              ),
+            Expanded(child: _buildSelectedDatesList()),
             ElevatedButton(
-              onPressed: () {
-               updateData();// Return to the previous screen
-              },
+              onPressed: updateData,
               child: const Text('Update'),
             ),
           ],

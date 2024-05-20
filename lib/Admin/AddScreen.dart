@@ -101,20 +101,46 @@ class _AddVenueScreenState extends State<AddVenueScreen> {
     );
   }
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(DateTime.now().year + 1),
-    );
-    if (pickedDate != null) {
-      setState(() {
-        _selectedDates.add(pickedDate);
-        _dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-      });
-    }
+Future<void> _selectDate(BuildContext context) async {
+  final DateTime? pickedDate = await showDatePicker(
+    context: context,
+    initialDate: DateTime.now(),
+    firstDate: DateTime.now().subtract(Duration(days: 365)), // Allow selection of past year for a year
+    lastDate: DateTime(DateTime.now().year + 1),
+  );
+  if (pickedDate != null) {
+    setState(() {
+      _selectedDates.add(pickedDate);
+      _dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+    });
   }
+}
+
+Widget _buildSelectedDatesList() {
+  if (_selectedDates.isEmpty) {
+    return const Text('No dates selected yet.');
+  }
+
+  return ListView.builder(
+    shrinkWrap: true, // Prevent excessive scrolling for short lists
+    itemCount: _selectedDates.length,
+    itemBuilder: (context, index) {
+      final selectedDate = _selectedDates[index];
+      return ListTile(
+        title: Text(DateFormat('yyyy-MM-dd').format(selectedDate)),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete),
+          onPressed: () {
+            setState(() {
+              _selectedDates.removeAt(index);
+              _dateController.text = ''; // Clear the text field on removal
+            });
+          },
+        ),
+      );
+    },
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -211,6 +237,8 @@ class _AddVenueScreenState extends State<AddVenueScreen> {
                 onTap: () => _selectDate(context),
                 decoration: const InputDecoration(labelText: 'Select Date'),
               ),
+              const SizedBox(height: 10),
+              Expanded(child: _buildSelectedDatesList()),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed:()async{ await _uploadVenue();},
