@@ -104,7 +104,7 @@ Widget build(BuildContext context) {
             ),
             Text(
               "Login to App",
-              style: GoogleFonts.poppins(
+              style: GoogleFonts.openSansCondensed(
                 textStyle: const TextStyle(
                   color: Color.fromARGB(255, 0, 0, 0),
                   fontSize: 40.0,
@@ -201,8 +201,8 @@ Widget build(BuildContext context) {
                 },
                 child: Text.rich(
                   TextSpan(
-                    text: "Don't Have an Account?",
-                    style: GoogleFonts.outfit(),
+                    text: "Don't Have an Account? ",
+                    style: GoogleFonts.notoSansJp(),
                     children: const [
                       TextSpan(text: "Signup", style: TextStyle(color: Colors.blue)),
                     ],
@@ -215,12 +215,12 @@ Widget build(BuildContext context) {
             Center(
               child: TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const AdminRegistrationPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => AdminRegistrationPage()));
                 },
                 child: Text.rich(
                   TextSpan(
-                    text: "Register as an Venue Owner !",
-                    style: GoogleFonts.outfit(),
+                    text: "Register as an Venue Owner! ",
+                    style: GoogleFonts.notoSansJp(),
                     children: const [
                       TextSpan(text: "Register", style: TextStyle(color: Colors.blue)),
                     ],

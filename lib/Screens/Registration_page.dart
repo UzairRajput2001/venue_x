@@ -76,6 +76,7 @@ Future<void> _signUp(BuildContext context) async {
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         appBar: AppBar(
+          title: Text('User Registration Page'),
           elevation: 0,
           backgroundColor: Colors.white,
           leading: IconButton(
