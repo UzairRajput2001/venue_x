@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:venue_x/Screens/login_page.dart';
 import 'package:venue_x/User/userprofile.dart';
+import 'package:venue_x/component/userNotification.dart';
 
 class NavBar extends StatelessWidget {
   const NavBar({super.key});
@@ -101,7 +102,13 @@ class NavBar extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.notifications_none_outlined),
                 title: const Text("Notification"),
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>  NotificationScreen()));
+                
+                },
               ),
               ListTile(
                 leading: const Icon(Icons.bookmark_border_rounded),
