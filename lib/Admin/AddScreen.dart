@@ -14,7 +14,6 @@ class AddVenueScreen extends StatefulWidget {
 }
 
 class _AddVenueScreenState extends State<AddVenueScreen> {
-  
   final ImagePicker _picker = ImagePicker();
   late File _image = File(''); // Initialize with an empty File object
   String _venueName = '';
@@ -37,18 +36,17 @@ class _AddVenueScreenState extends State<AddVenueScreen> {
 
   Future<void> _uploadVenue() async {
     // Upload image to Firebase Storage
-    String imageUrl="";
+    String imageUrl = "";
     firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
         .ref()
         .child('venues')
         .child('${DateTime.now().millisecondsSinceEpoch}.jpg');
-    if(_image.path.isNotEmpty)
-    {
+    if (_image.path.isNotEmpty) {
       await ref.putFile(_image);
       imageUrl = await ref.getDownloadURL();
     }
     Map<String, dynamic> venueDetails = {
-      'userId':FirebaseAuth.instance.currentUser!.uid,
+      'userId': FirebaseAuth.instance.currentUser!.uid,
       'name': _venueName,
       'description': _venueDescription,
       'image_url': imageUrl,
@@ -63,11 +61,10 @@ class _AddVenueScreenState extends State<AddVenueScreen> {
     await FirebaseFirestore.instance.collection('venues').add(venueDetails);
     CollectionReference venuesRef = FirebaseFirestore.instance.collection('venueOwners');
     DocumentReference venueDocRef = venuesRef.doc(FirebaseAuth.instance.currentUser!.uid);
-  // Update the document
+    // Update the document
     await venueDocRef.update({
-    'venues': FieldValue.arrayUnion([_venueName]),
+      'venues': FieldValue.arrayUnion([_venueName]),
     });
-  
 
     // Show success dialog
     showDialog(
@@ -101,46 +98,46 @@ class _AddVenueScreenState extends State<AddVenueScreen> {
     );
   }
 
-Future<void> _selectDate(BuildContext context) async {
-  final DateTime? pickedDate = await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime.now().subtract(Duration(days: 365)), // Allow selection of past year for a year
-    lastDate: DateTime(DateTime.now().year + 1),
-  );
-  if (pickedDate != null) {
-    setState(() {
-      _selectedDates.add(pickedDate);
-      _dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-    });
-  }
-}
-
-Widget _buildSelectedDatesList() {
-  if (_selectedDates.isEmpty) {
-    return const Text('No dates selected yet.');
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now().subtract(Duration(days: 365)), // Allow selection of past year for a year
+      lastDate: DateTime(DateTime.now().year + 1),
+    );
+    if (pickedDate != null) {
+      setState(() {
+        _selectedDates.add(pickedDate);
+        _dateController.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+      });
+    }
   }
 
-  return ListView.builder(
-    shrinkWrap: true, // Prevent excessive scrolling for short lists
-    itemCount: _selectedDates.length,
-    itemBuilder: (context, index) {
-      final selectedDate = _selectedDates[index];
-      return ListTile(
-        title: Text(DateFormat('yyyy-MM-dd').format(selectedDate)),
-        trailing: IconButton(
-          icon: const Icon(Icons.delete),
-          onPressed: () {
-            setState(() {
-              _selectedDates.removeAt(index);
-              _dateController.text = ''; // Clear the text field on removal
-            });
-          },
-        ),
-      );
-    },
-  );
-}
+  Widget _buildSelectedDatesList() {
+    if (_selectedDates.isEmpty) {
+      return const Text('No dates selected yet.');
+    }
+
+    return ListView.builder(
+      shrinkWrap: true, // Prevent excessive scrolling for short lists
+      itemCount: _selectedDates.length,
+      itemBuilder: (context, index) {
+        final selectedDate = _selectedDates[index];
+        return ListTile(
+          title: Text(DateFormat('yyyy-MM-dd').format(selectedDate)),
+          trailing: IconButton(
+            icon: const Icon(Icons.delete),
+            onPressed: () {
+              setState(() {
+                _selectedDates.removeAt(index);
+                _dateController.text = ''; // Clear the text field on removal
+              });
+            },
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -238,10 +235,12 @@ Widget _buildSelectedDatesList() {
                 decoration: const InputDecoration(labelText: 'Select Date'),
               ),
               const SizedBox(height: 10),
-              Expanded(child: _buildSelectedDatesList()),
+              _buildSelectedDatesList(),
               const SizedBox(height: 20),
               ElevatedButton(
-                onPressed:()async{ await _uploadVenue();},
+                onPressed: () async {
+                  await _uploadVenue();
+                },
                 child: const Text('Save Venue'),
               ),
             ],
