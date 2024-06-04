@@ -23,6 +23,8 @@ class Venues {
     required this.venueLocation,
   });
 
+  get id => null;
+
   Venues copyWith({
     String? address,
     List<String>? availableDates,
@@ -53,7 +55,7 @@ class Venues {
       'availableDates': availableDates,
       'capacity': capacity,
       'description': description,
-      'eventType': eventType,
+      'event_Type': eventType,
       'imageUrl': imageUrl,
       'name': name,
       'userId': userId,
@@ -62,16 +64,18 @@ class Venues {
   }
 
   factory Venues.fromMap(Map<String, dynamic> map) {
+    // print(map);
+    // print(map['capacity'] as int);
     return Venues(
       address: map['address'] as String,
-      availableDates: List<String>.from((map['availableDates'] ??[])),
-      capacity: map['capacity'] as int,
+      availableDates: List<String>.from((map['availableDates']??[])),
+      capacity: int.parse(map['capacity'].toString()),
       description: map['description'] as String,
-      eventType: map['eventType'] ?? "",
+      eventType: map['event_type'] ?? "",
       imageUrl: map['imageUrl'] ??"",
       name: map['name'] as String,
       userId: map['userId'] as String,
-      venueLocation: map['venueLocation']?? "",
+      venueLocation: map['venue_location']?? "",
     );
   }
 

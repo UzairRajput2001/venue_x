@@ -18,6 +18,7 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
     _textController.clear();
     ChatMessage message = ChatMessage(
       text: text,
+      
       isUser: false, // The message is from the admin
     );
     setState(() {
@@ -38,6 +39,7 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
                 onSubmitted: _handleSubmitted,
                 decoration: const InputDecoration.collapsed(
                   hintText: "Send a message",
+                  
                 ),
               ),
             ),
@@ -56,7 +58,7 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
       itemCount: _users.length,
       itemBuilder: (context, index) {
         return ListTile(
-          title: Text(_users[index]),
+          title: Text(_users[index],),
           onTap: () {
             setState(() {
               _selectedUser = _users[index];
@@ -82,8 +84,10 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
                   child: ListView.builder(
                     padding: const EdgeInsets.all(8.0),
                     reverse: true,
+                    
                     itemBuilder: (_, int index) => _messages[index],
                     itemCount: _messages.length,
+                    
                   ),
                 ),
                 const Divider(height: 1.0),
@@ -136,3 +140,7 @@ class ChatMessage extends StatelessWidget {
     );
   }
 }
+
+
+
+

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:venue_x/Screens/login_page.dart';
+import 'package:venue_x/data/push_notification.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -7,8 +8,9 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform
+    options: DefaultFirebaseOptions.currentPlatform,
 );
+PushNotificationService().initNotifications();
   runApp(const MyApp());
 }
 

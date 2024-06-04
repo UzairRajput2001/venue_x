@@ -50,6 +50,7 @@ class VenueDetailsState extends State<VenueDetails> {
         // Navigate to the booking screen after adding the request
         Navigator.push(
           context,
+
           MaterialPageRoute(
             builder: (context) => BookingScreen(
               venueName: widget.venue.name,

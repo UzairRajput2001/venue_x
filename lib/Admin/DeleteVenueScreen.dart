@@ -7,7 +7,7 @@ class DeleteVenueScreen extends StatefulWidget {
   final String venueDescription;
   final String location;
 
-  const DeleteVenueScreen({super.key, required this.venueName, required this.venueDescription, required this.location});
+  const DeleteVenueScreen({super.key, required this.venueName, required this.venueDescription, required this.location, });
 
   @override
   State<DeleteVenueScreen> createState() => _DeleteVenueScreenState();

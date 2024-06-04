@@ -1,10 +1,11 @@
 
 import 'package:flutter/material.dart';
+import 'package:venue_x/model.dart/venues_model.dart';
 
 
 class CustomSearchDelegate extends SearchDelegate {
   List<String> searchTerms = [
-    'saari Banquet',
+    'saari Banquet 1',
     'qasim Banquet',
     'dolmen Banquet',
   ];
@@ -33,6 +34,9 @@ class CustomSearchDelegate extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     List<String> matchQuery = [];
+    
+    AllVenues().loadVenuesFromFirestore();
+    searchTerms = AllVenues().getAllNames();
     for (var Venue in searchTerms) {
       if (Venue.toLowerCase().contains(query.toLowerCase())) {
         matchQuery.add(Venue);
@@ -50,6 +54,8 @@ class CustomSearchDelegate extends SearchDelegate {
   @override
 Widget buildSuggestions(BuildContext context) {
   List<String> matchQuery = [];
+    AllVenues().loadVenuesFromFirestore();
+    searchTerms = AllVenues().getAllNames();
   for (var Venue in searchTerms) {
     if (Venue.toLowerCase().contains(query.toLowerCase())) {
       matchQuery.add(Venue);
