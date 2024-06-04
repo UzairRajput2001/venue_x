@@ -378,6 +378,7 @@ class UpdateVenueScreen extends StatefulWidget {
     required this.venueAddress,
     required this.venueLocation,
     required this.imageUrl,
+    
   });
   final String venueName;
   final String venueDescription;
