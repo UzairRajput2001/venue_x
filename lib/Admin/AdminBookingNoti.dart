@@ -84,7 +84,8 @@ class AdminBookingScreenState extends State<AdminBookingScreen> {
                             'Capacity: ${_bookingRequests[index].selectedCapacity}'),
                       ],
                     ),
-                    trailing: Row(
+                    trailing: 
+                    Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
@@ -115,12 +116,17 @@ class AdminBookingScreenState extends State<AdminBookingScreen> {
     DocumentReference bookingRef =
         FirebaseFirestore.instance.collection('bookingRequests').doc(requestId);
 
-    // Update the status field
+    CollectionReference chatsRef = bookingRef.collection('chats');
+
+    await chatsRef.add({
+      'sender': 'Admin',
+      'message': 'Your booking has been accepted',
+      'timestamp': DateTime.now(),
+    });
+
     await bookingRef.update({'status': 'active'});
 
-    // Check if device token is available
     if (userDeviceToken.isNotEmpty) {
-      // Implement accept logic here
       PushNotificationService().showNotification(
         userDeviceToken,
         "Your booking has been accepted",
@@ -134,12 +140,17 @@ class AdminBookingScreenState extends State<AdminBookingScreen> {
     DocumentReference bookingRef =
         FirebaseFirestore.instance.collection('bookingRequests').doc(requestId);
 
-    // Update the status field
+    CollectionReference chatsRef = bookingRef.collection('chats');
+
+    await chatsRef.add({
+      'sender': 'Admin',
+      'message': 'Your booking has been rejected',
+      'timestamp': DateTime.now(),
+    });
+
     await bookingRef.update({'status': 'rejected'});
 
-    // Check if device token is available
     if (userDeviceToken.isNotEmpty) {
-      // Implement reject logic here
       PushNotificationService().showNotification(
         userDeviceToken,
         "Your booking has been rejected",

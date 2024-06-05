@@ -29,7 +29,7 @@ class AdminNavBar extends StatelessWidget {
         future: FirebaseFirestore.instance.collection('venueOwners').doc(user?.uid).get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return Center(child: const CircularProgressIndicator());
           }
           if (snapshot.hasError) {
             return Text('Error: ${snapshot.error}');

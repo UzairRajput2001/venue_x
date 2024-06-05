@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:venue_x/User/HomeScreen.dart';
+import 'package:venue_x/User/chat_page.dart';
 import 'package:venue_x/User/chatscreen.dart';
 import 'package:venue_x/User/filter.dart';
 import 'package:venue_x/User/userprofile.dart';
@@ -110,7 +111,7 @@ class _HomePageState extends State<HomePage> {
     body = [
       const UserProfileScreen(),
       const DetailsVenues(),
-      ChatScreen(_venueName),
+      UserBookingRequestsScreen(),
     ];
     _startTimer();
     return Scaffold(

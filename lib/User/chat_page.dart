@@ -1,42 +1,74 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
-import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:venue_x/User/chatscreen.dart';
 
-class ChatPage extends StatefulWidget {
-  const ChatPage({super.key});
+class UserBookingRequestsScreen extends StatefulWidget {
+  const UserBookingRequestsScreen({super.key});
 
   @override
-  State<ChatPage> createState() => _ChatPageState();
+  State<UserBookingRequestsScreen> createState() => _UserBookingRequestsScreenState();
 }
 
-class _ChatPageState extends State<ChatPage> {
-   final List<types.Message> _messages = [];
-  final _user = const types.User(
-    id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
-  );
+class _UserBookingRequestsScreenState extends State<UserBookingRequestsScreen> {
+  late List<Map<String, dynamic>> _bookingRequests = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchBookingRequests();
+  }
+
+  Future<void> _fetchBookingRequests() async {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('bookingRequests')
+          .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .where('status', isEqualTo: 'active')
+          .get();
+
+      final List<Map<String, dynamic>> requests = querySnapshot.docs.map((doc) {
+        final data = doc.data();
+        return {
+          'id': doc.id,
+          'venueName': data['venueName'],
+        };
+      }).toList();
+
+      setState(() {
+        _bookingRequests = requests;
+      });
+    } catch (e) {
+      print('Error fetching booking requests: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Chat(messages: _messages, onSendPressed: _handleSendPressed, user: _user),
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text('Chat with Admin'),
+      ),
+      body: ListView.builder(
+        itemCount: _bookingRequests.length,
+        itemBuilder: (context, index) {
+          final booking = _bookingRequests[index];
+          return Card(
+            child: ListTile(
+              title: Text(booking['venueName']),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatPage(documentId: booking['id']),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
     );
   }
-
-
-  void _handleSendPressed(types.PartialText message) {
-    final textMessage = types.TextMessage(
-      author: _user,
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-      id: "id",
-      text: message.text,
-    );
-
-    _addMessage(textMessage);
-  }
-
-   void _addMessage(types.Message message) {
-    setState(() {
-      _messages.insert(0, message);
-    });
-  }
-
 }

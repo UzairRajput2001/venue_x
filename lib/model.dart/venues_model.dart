@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:venue_x/model.dart/venue_model.dart';
+import 'package:venue_x/model.dart/venuedetailmodel.dart';
 
 class AllVenues {
   // Private constructor
@@ -17,22 +17,23 @@ class AllVenues {
   String exampleProperty = 'Hello, Singleton!';
 
   // List to store venues
-  List<Venues> venues = [];
+  List<Venue> venues = [];
 
   // Method to add a venue
-  void addVenue(Venues venue) {
+  void addVenue(Venue venue) {
     venues.add(venue);
   }
 
   // Method to retrieve all venues
-  List<Venues> getAll() {
+  List<Venue> getAll() {
     return venues;
   }
 
   // Method to load venues from Firestore
   Future<void> loadVenuesFromFirestore() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('venues').get();
-    venues = querySnapshot.docs.map((doc) => Venues.fromMap(doc.data() as Map<String, dynamic>)).toList();
+    venues = querySnapshot.docs.map((doc) => Venue.fromMap(doc.data() as Map<String, dynamic>)).toList();
+
   }
 
   // Method to get all venue names
@@ -41,16 +42,11 @@ class AllVenues {
   }
 
   // Method to get a venue by name
-  Venues? getVenueByName(String name) {
+  Venue? getVenueByName(String name) {
     try {
       return venues.firstWhere((venue) => venue.name.toLowerCase() == name.toLowerCase());
     } catch (e) {
       return null; // Return null if no venue is found
     }
   }
-
-  // // Example method
-  // void exampleMethod() {
-  //   print(exampleProperty);
-  // }
 }

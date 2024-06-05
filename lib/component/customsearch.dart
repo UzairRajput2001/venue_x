@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:venue_x/model.dart/venue_model.dart';
 import 'package:venue_x/User/HomeVenueDetail.dart';
-import 'package:venue_x/model.dart/venues_model.dart';
+import 'package:venue_x/model.dart/venuedetailmodel.dart';
 
-import '../model.dart/venuedetailmodel.dart';
+import '../model.dart/venues_model.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
   List<String> searchTerms = [
@@ -53,7 +53,7 @@ class CustomSearchDelegate extends SearchDelegate {
           title: Text(result),
           onTap: () {
             // Fetch the venue details based on the name
-            Venue? selectedVenue = AllVenues().getVenueByName(result) as Venue?;
+            Venue? selectedVenue = AllVenues().getVenueByName(result);
             if (selectedVenue != null) {
               Navigator.push(
                 context,
@@ -86,7 +86,7 @@ class CustomSearchDelegate extends SearchDelegate {
           title: Text(result),
           onTap: () {
             // Fetch the venue details based on the name
-            Venue? selectedVenue = AllVenues().getVenueByName(result) as Venue?;
+            Venue? selectedVenue = AllVenues().getVenueByName(result);
             if (selectedVenue != null) {
               Navigator.push(
                 context,

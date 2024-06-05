@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:venue_x/Admin/AdminChatScreen.dart';
 import 'package:venue_x/Admin/AdminHomeScreen.dart';
 import 'package:venue_x/Admin/AdminProfile.dart';
+import 'package:venue_x/Admin/adminActiveChats.dart';
 import 'package:venue_x/component/AdminMenu.dart';
 
 class AdminHome extends StatefulWidget {
@@ -21,7 +22,7 @@ class _AdminHomeState extends State<AdminHome>{
     body = [
       const AdminProfileScreen(),
       const OwnerHomePage(),
-      const AdminChatScreen(),
+      const AdminActiveBookingScreen(),
     ];
     return Scaffold(
       drawer: AdminNavBar(),
