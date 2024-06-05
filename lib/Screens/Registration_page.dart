@@ -14,62 +14,67 @@ class RegistrationPage extends StatelessWidget {
 
   RegistrationPage({super.key});
 
+  Future<void> _signUp(BuildContext context) async {
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
 
-Future<void> _signUp(BuildContext context) async {
-  try {
-    UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: _emailController.text,
-      password: _passwordController.text,
-    );
+      // Add user data to Firestore
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userCredential.user!.uid)
+          .set({
+        'name': _nameController.text,
+        'email': _emailController.text,
+        'phone': _phoneNumberController.text,
+      });
 
-    // Add user data to Firestore
-    await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
-      'name': _nameController.text,
-      'email': _emailController.text,
-      'phone': _phoneNumberController.text,
-    });
-
-    // Show success dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Registration Successful'),
-          content: const Text('Your account has been created successfully.'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  } catch (e) {
-    // Handle registration errors
-    print('Failed to register user: $e');
-    // Show error dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Registration Failed'),
-          content: const Text('Failed to create your account. Please try again.'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
+      // Show success dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Registration Successful'),
+            content: const Text('Your account has been created successfully.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } catch (e) {
+      // Handle registration errors
+      print('Failed to register user: $e');
+      // Show error dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Registration Failed'),
+            content:
+                const Text('Failed to create your account. Please try again.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
-}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +97,9 @@ Future<void> _signUp(BuildContext context) async {
         ),
         body: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 15,),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15,
+            ),
             height: MediaQuery.of(context).size.height - 50,
             width: double.infinity,
             child: Column(
@@ -105,7 +112,6 @@ Future<void> _signUp(BuildContext context) async {
                       //image
                       const Image(
                         image: AssetImage("assets/images/logo.png"),
-                        
                       ),
 
                       const SizedBox(
@@ -124,54 +130,65 @@ Future<void> _signUp(BuildContext context) async {
                       const SizedBox(
                         height: 30,
                       ),
-                     TextField(
+                      TextField(
                         controller: _nameController,
                         keyboardType: TextInputType.name,
                         decoration: InputDecoration(
                           hintText: "Name",
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20)),
                           prefixIcon: const Icon(
                             Icons.contact_phone,
                             color: Colors.black,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       TextField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           hintText: "Email",
-                          border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20)),
                           prefixIcon: const Icon(
                             Icons.mail_rounded,
                             color: Colors.black,
                           ),
                         ),
                         style: GoogleFonts.outfit(
-                          textStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+                          textStyle: const TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.black),
                         ),
-),
+                      ),
 
-                      const SizedBox(height: 10,),
-                       TextField(
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      TextField(
                         controller: _phoneNumberController,
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                             hintText: "Phone Number",
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20)),
                             prefixIcon: const Icon(
                               Icons.mail_rounded,
                               color: Colors.black,
                             )),
                       ),
-                      const SizedBox(height: 10,),
+                      const SizedBox(
+                        height: 10,
+                      ),
                       TextField(
                         controller: _passwordController,
                         keyboardType: TextInputType.visiblePassword,
                         decoration: InputDecoration(
                             hintText: "Password",
-                            border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(20)),
                             prefixIcon: const Icon(
                               Icons.fingerprint_rounded,
                               color: Colors.black,
@@ -180,38 +197,37 @@ Future<void> _signUp(BuildContext context) async {
                       const SizedBox(
                         height: 20,
                       ),
-                     SizedBox(
-                width: double.infinity,
-                child: RawMaterialButton(
-                  fillColor: Colors.deepPurpleAccent,
-                  elevation: 0.0,
-                  padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
-                  onPressed: () => _signUp(context),
-                  child: const Text(
-                    "Sign Up",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15.0,
-                    ),
-                  ),
-                ),
-              ),
-            const SizedBox(height: 20,),
+                      SizedBox(
+                        width: double.infinity,
+                        child: RawMaterialButton(
+                          fillColor: Colors.deepPurpleAccent,
+                          elevation: 0.0,
+                          padding: const EdgeInsets.symmetric(vertical: 15.0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0)),
+                          onPressed: () => _signUp(context),
+                          child: const Text(
+                            "Sign Up",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       const Text(
                         "Create an account, It's free",
                         style: TextStyle(fontSize: 15, color: Colors.black),
                       ),
-                        
 
                       Center(
                         child: TextButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginPage()));
+                            Navigator.pop(context);
                           },
                           child: const Text.rich(
                             TextSpan(
@@ -248,7 +264,8 @@ Future<void> _signUp(BuildContext context) async {
         TextField(
           obscureText: obscureText,
           decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey.shade400)),
             border: OutlineInputBorder(
