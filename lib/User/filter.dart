@@ -18,7 +18,7 @@ class _FilterScreenState extends State<FilterScreen> {
   String selectedCapacity = 'Select Capacity';
 
   List<String> locations = ['Select Location', 'Hyderabad', 'Latifabad', 'Qasimabad'];
-  List<String> events = ['Select Event', 'Marriage', 'Birthday', 'Others'];
+  List<String> events = ['Select Event', 'Marriage', 'Birthday Party', 'Others'];
   List<String> capacities = ['Select Capacity', '200 Peoples', '500 Peoples', '700 Peoples', 'more than 1000 Peoples'];
 
   @override
@@ -199,6 +199,8 @@ class _FilterScreenState extends State<FilterScreen> {
         location: data['venue_location'] ?? '',
       );
     }).toList();
+
+    print('Filtered venues: $venues');
 
     return venues;
 
