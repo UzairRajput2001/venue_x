@@ -3,11 +3,6 @@ import 'package:venue_x/Admin/AdminChatScreen.dart';
 import 'package:venue_x/Admin/AdminHomeScreen.dart';
 import 'package:venue_x/Admin/AdminProfile.dart';
 import 'package:venue_x/component/AdminMenu.dart';
-// import 'package:untitled1/Screens/AdminChatScreen.dart';
-// import 'package:untitled1/Screens/AdminHomeScreen.dart';
-// import 'package:untitled1/Screens/AdminProfile.dart';
-// import 'package:untitled1/component/AdminMenu.dart';
-// import 'package:untitled1/component/drawer.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({super.key});
