@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:venue_x/model.dart/venue_model.dart';
 
@@ -40,6 +39,16 @@ class AllVenues {
   List<String> getAllNames() {
     return venues.map((venue) => venue.name).toList();
   }
+
+  // Method to get a venue by name
+  Venues? getVenueByName(String name) {
+    try {
+      return venues.firstWhere((venue) => venue.name.toLowerCase() == name.toLowerCase());
+    } catch (e) {
+      return null; // Return null if no venue is found
+    }
+  }
+
   // // Example method
   // void exampleMethod() {
   //   print(exampleProperty);

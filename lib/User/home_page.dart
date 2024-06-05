@@ -21,14 +21,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final String _venueName = 'Qasim Banquet';
   Timer? _timer;
-  
+
   @override
   void initState() {
     super.initState();
     _startTimer();
   }
 
- void _startTimer() {
+  void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 10), (timer) {
       checkForUpdates();
     });
@@ -67,9 +67,9 @@ class _HomePageState extends State<HomePage> {
       if (isDifferent) {
         print("new update");
         PushNotificationService().showNotification(
-    "new update",
-    "Status has changed to: "  
-      );
+          "new update",
+          "Status has changed to:",
+        );
       }
     }
 
@@ -112,7 +112,7 @@ class _HomePageState extends State<HomePage> {
       const DetailsVenues(),
       ChatScreen(_venueName),
     ];
-_startTimer();
+    _startTimer();
     return Scaffold(
       drawer: const NavBar(),
       appBar: AppBar(

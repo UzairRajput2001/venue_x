@@ -1,7 +1,9 @@
-
 import 'package:flutter/material.dart';
+import 'package:venue_x/model.dart/venue_model.dart';
+import 'package:venue_x/User/HomeVenueDetail.dart';
 import 'package:venue_x/model.dart/venues_model.dart';
 
+import '../model.dart/venuedetailmodel.dart';
 
 class CustomSearchDelegate extends SearchDelegate {
   List<String> searchTerms = [
@@ -14,10 +16,11 @@ class CustomSearchDelegate extends SearchDelegate {
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(
-          icon: const Icon(Icons.clear),
-          onPressed: () {
-            query = '';
-          }),
+        icon: const Icon(Icons.clear),
+        onPressed: () {
+          query = '';
+        },
+      ),
     ];
   }
 
@@ -37,42 +40,64 @@ class CustomSearchDelegate extends SearchDelegate {
     
     AllVenues().loadVenuesFromFirestore();
     searchTerms = AllVenues().getAllNames();
-    for (var Venue in searchTerms) {
-      if (Venue.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(Venue);
+    for (var venue in searchTerms) {
+      if (venue.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(venue);
       }
     }
     return ListView.builder(
       itemCount: matchQuery.length,
       itemBuilder: (context, index) {
         var result = matchQuery[index];
-        return const ListTile();
+        return ListTile(
+          title: Text(result),
+          onTap: () {
+            // Fetch the venue details based on the name
+            Venue? selectedVenue = AllVenues().getVenueByName(result) as Venue?;
+            if (selectedVenue != null) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => VenueDetails(venue: selectedVenue),
+                ),
+              );
+            }
+          },
+        );
       },
     );
   }
 
   @override
-Widget buildSuggestions(BuildContext context) {
-  List<String> matchQuery = [];
+  Widget buildSuggestions(BuildContext context) {
+    List<String> matchQuery = [];
     AllVenues().loadVenuesFromFirestore();
     searchTerms = AllVenues().getAllNames();
-  for (var Venue in searchTerms) {
-    if (Venue.toLowerCase().contains(query.toLowerCase())) {
-      matchQuery.add(Venue);
+    for (var venue in searchTerms) {
+      if (venue.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(venue);
+      }
     }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+          onTap: () {
+            // Fetch the venue details based on the name
+            Venue? selectedVenue = AllVenues().getVenueByName(result) as Venue?;
+            if (selectedVenue != null) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => VenueDetails(venue: selectedVenue),
+                ),
+              );
+            }
+          },
+        );
+      },
+    );
   }
-  return ListView.builder(
-    itemCount: matchQuery.length,
-    itemBuilder: (context, index) {
-      var result = matchQuery[index];
-      return ListTile(
-        title: Text(result),
-        onTap: () {
-          
-        },
-      );
-    },
-  );
-}
-
 }

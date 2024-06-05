@@ -41,10 +41,6 @@ class AdminBookingScreenState extends State<AdminBookingScreen> {
           .collection('bookingRequests')
           .where("venueName", whereIn: venueList)
           .get();
-      final bookrequest = await FirebaseFirestore.instance
-          .collection('bookingRequests')
-          .where("venueName", whereIn: venueList)
-          .get();
       final List<BookingRequest> requests = [];
       for (var doc in querySnapshot.docs) {
         final data = doc.data();
@@ -53,6 +49,7 @@ class AdminBookingScreenState extends State<AdminBookingScreen> {
           selectedDate: (data['selectedDate'] as Timestamp).toDate(),
           selectedCapacity: data['selectedCapacity'] ?? '',
           id: doc.id,
+          userDeviceToken: data['userDeviceToken'] ?? '',
         );
         requests.add(request);
       }
@@ -93,14 +90,14 @@ class AdminBookingScreenState extends State<AdminBookingScreen> {
                         IconButton(
                           icon: const Icon(Icons.check),
                           onPressed: () {
-                            _acceptBookingRequest(_bookingRequests[index].id);
+                            _acceptBookingRequest(_bookingRequests[index].id, _bookingRequests[index].userDeviceToken);
                             _showNotificationSnackBar("Booking Accepted");
                           },
                         ),
                         IconButton(
                           icon: const Icon(Icons.close),
                           onPressed: () {
-                            _rejectBookingRequest(_bookingRequests[index].id);
+                            _rejectBookingRequest(_bookingRequests[index].id, _bookingRequests[index].userDeviceToken);
                             _showNotificationSnackBar("Booking Rejected");
                           },
                         ),
@@ -114,46 +111,42 @@ class AdminBookingScreenState extends State<AdminBookingScreen> {
     );
   }
 
-//   void _acceptBookingRequest(String requestId) {
-//   // Implement accept logic here
-//   PushNotificationService().showNotification(
-//     "Booking Confirmed",
-//     "Your booking has been confirmed.",
-//   );
-//   PushNotificationService().generateDeviceRegistrationToken();
-// }
-
-  void _acceptBookingRequest(String requestId) async {
-    // Retrieve device token
-    String? userDeviceToken =
-        await PushNotificationService().generateDeviceRegistrationToken();
+  void _acceptBookingRequest(String requestId, String userDeviceToken) async {
     DocumentReference bookingRef =
         FirebaseFirestore.instance.collection('bookingRequests').doc(requestId);
 
     // Update the status field
     await bookingRef.update({'status': 'active'});
+
     // Check if device token is available
-    if (userDeviceToken != null) {
+    if (userDeviceToken.isNotEmpty) {
       // Implement accept logic here
       PushNotificationService().showNotification(
-        // "Booking Confirmed",
         userDeviceToken,
         "Your booking has been accepted",
       );
     } else {
-      print("Device token not available");
+      print("User device token not available");
     }
   }
 
-  void _rejectBookingRequest(String requestId) async {
+  void _rejectBookingRequest(String requestId, String userDeviceToken) async {
     DocumentReference bookingRef =
         FirebaseFirestore.instance.collection('bookingRequests').doc(requestId);
 
     // Update the status field
-    await bookingRef.update({'status': 'reject'});
-    // Implement reject logic here
-    PushNotificationService().showNotification(
-        "Booking Rejected", "Your booking has been rejected try again.");
+    await bookingRef.update({'status': 'rejected'});
+
+    // Check if device token is available
+    if (userDeviceToken.isNotEmpty) {
+      // Implement reject logic here
+      PushNotificationService().showNotification(
+        userDeviceToken,
+        "Your booking has been rejected",
+      );
+    } else {
+      print("User device token not available");
+    }
   }
 }
 
@@ -162,12 +155,14 @@ class BookingRequest {
   final String venueName;
   final DateTime selectedDate;
   final int selectedCapacity; // Change to int
+  final String userDeviceToken; // Add this field
 
   BookingRequest({
     required this.id,
     required this.venueName,
     required this.selectedDate,
     required this.selectedCapacity,
+    required this.userDeviceToken, // Add this parameter
   });
 
   factory BookingRequest.fromSnapshot(DocumentSnapshot snapshot) {
@@ -176,8 +171,8 @@ class BookingRequest {
       id: snapshot.id,
       venueName: data['venueName'] ?? '',
       selectedDate: (data['selectedDate'] as Timestamp).toDate(),
-      selectedCapacity:
-          data['selectedCapacity'] ?? 0, // Set default value or handle null
+      selectedCapacity: data['selectedCapacity'] ?? 0, // Set default value or handle null
+      userDeviceToken: data['userDeviceToken'] ?? '', // Add this line
     );
   }
 }
