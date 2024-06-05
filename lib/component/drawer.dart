@@ -110,11 +110,7 @@ class NavBar extends StatelessWidget {
                 
                 },
               ),
-              ListTile(
-                leading: const Icon(Icons.bookmark_border_rounded),
-                title: const Text("Booking"),
-                onTap: () {},
-              ),
+              
               ListTile(
                 leading: const Icon(Icons.exit_to_app_outlined),
                 title: const Text("Logout"),
