@@ -33,7 +33,7 @@ dependencies:
 
   firebase_core: ^2.30.0
   animate_do: ^3.3.4
-  google_fonts: ^6.2.0
+  google_fonts: 6.1.0
   flutter_chat_ui: ^1.6.12
   table_calendar: ^3.0.0
   image_picker: ^0.8.4+3
