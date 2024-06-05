@@ -147,7 +147,7 @@ _startTimer();
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 10),
-                        child: Text('Search for venues'),
+                        child: Center(child: Text('Search for venues')),
                       ),
                     ],
                   ),
