@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:venue_x/User/HomeVenueDetail.dart';
 import 'package:venue_x/model.dart/venuedetailmodel.dart';
 
@@ -104,36 +105,58 @@ class _DetailsVenuesState extends State<DetailsVenues> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child:venue.imagePath.isEmpty?const SizedBox.shrink() :Image.network(
-                      venue.imagePath,
-                      height: 150,
-                      fit: BoxFit.cover,
-                    ),
+                    child: venue.imagePath.isEmpty
+                        ? const SizedBox.shrink()
+                        : Image.network(
+                            venue.imagePath,
+                            height: 150,
+                            fit: BoxFit.cover,
+                          ),
                   ),
                   const SizedBox(height: 8),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                      venue.name,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          venue.name,
+                          style: GoogleFonts.lato(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Icon(
+                          Icons.person,
+                          color: Colors.black,
+                          size: 20.0,
+                        ),
+                            Text(
+                            venue.capacity.toString(),
+                            style: const TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.bold),
+                          ),
+                          ]
+                        ),
+                      ],
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                      'Capacity: ${venue.capacity}',
-                      style: const TextStyle(fontSize: 12),
+                    child: Divider(
+                      color: Color.fromARGB(
+                          156, 94, 83, 83), // Customize the color
+                      thickness: 0.5, // Customize the thickness
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
                       children: [
-                        const Text(
-                          'Dates:',
-                          style: TextStyle(
-                              fontSize: 12, fontWeight: FontWeight.bold),
+                        const Icon(
+                          Icons.event,
+                          color: Colors.black,
+                          size: 20.0,
                         ),
                         const SizedBox(height: 4),
                         Column(
