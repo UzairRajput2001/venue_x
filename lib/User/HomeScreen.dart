@@ -69,7 +69,10 @@ class _DetailsVenuesState extends State<DetailsVenues> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Featured Venues'),
+        title: Text(
+          'Featured Venues',
+          style: GoogleFonts.lato(fontSize: 25,fontWeight: FontWeight.bold),
+        ),
       ),
       body: ListView.builder(
         itemCount: venues.length,
@@ -154,7 +157,7 @@ class _DetailsVenuesState extends State<DetailsVenues> {
                     child: Row(
                       children: [
                         const Icon(
-                          Icons.event,
+                          Icons.event ,
                           color: Colors.black,
                           size: 20.0,
                         ),

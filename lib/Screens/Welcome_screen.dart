@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:untitled1/Screens/home_page.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:venue_x/Screens/login_page.dart';
 import 'package:venue_x/User/home_page.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -35,8 +36,8 @@ class WelcomeScreen extends StatelessWidget {
               children: [
                 TextButton.icon(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => const HomePage()));
+                      Navigator.pushReplacement(context,
+                          MaterialPageRoute(builder: (context) => LoginPage()));
                     },
                     style: TextButton.styleFrom(
                         foregroundColor: const Color.fromARGB(255, 255, 255, 255),
