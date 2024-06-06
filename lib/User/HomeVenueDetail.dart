@@ -58,6 +58,9 @@ class VenueDetailsState extends State<VenueDetails> {
               selectedEvent: widget.venue.event_type,
               selectedCapacity: widget.venue.capacity,
               userId: userId,
+              location: widget.venue.location,
+              dates: widget.venue.dates,
+
             ),
           ),
         );

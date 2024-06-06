@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:venue_x/Screens/login_page.dart';
 import 'package:venue_x/Admin/adminhomepage.dart';
+import 'package:venue_x/Screens/splash_screen.dart';
 import 'package:venue_x/User/home_page.dart';
 import 'package:venue_x/data/push_notification.dart';
 import 'package:venue_x/dummypage.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,18 +28,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      
-      home: HomePage(),
+      home: const SplashScreen(),
     );
   }
 }
-
-
-  Future<bool> _checkUserRole(String uid) async {
-    DocumentSnapshot venueOwnerSnapshot = await FirebaseFirestore.instance
-        .collection('venueOwners')
-        .doc(uid)
-        .get();
-    return venueOwnerSnapshot.exists;
-  }
-
