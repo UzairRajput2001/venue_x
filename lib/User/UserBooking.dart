@@ -7,6 +7,8 @@ class BookingScreen extends StatelessWidget {
   final int selectedCapacity;
   final String selectedEvent;
   final String userId;
+  final String location;
+  final List<dynamic> dates;
 
   const BookingScreen({
     super.key,
@@ -14,7 +16,7 @@ class BookingScreen extends StatelessWidget {
     required this.selectedDate,
     required this.selectedCapacity,
     required this.selectedEvent,
-    required this.userId,
+    required this.userId, required this.location, required this.dates,
   });
 
   @override
@@ -79,6 +81,41 @@ class BookingScreen extends StatelessWidget {
                         fontFamily: 'Roboto',
                       ),
                     ),
+                    Text(
+                      'Location: ${location}',
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 16.0,
+                        fontFamily: 'Roboto',
+                      ),
+                    ),
+                     Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Available Dates:',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 4),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: dates.map((date) {
+                        return Text(
+                          date,
+                          style: const TextStyle(fontSize: 16),
+                        );
+                      }).toList(),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
                   ],
                 ),
               ),
