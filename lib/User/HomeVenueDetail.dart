@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart'; // Import Firestore
 import 'package:venue_x/User/UserBooking.dart';
 import 'package:venue_x/model.dart/venuedetailmodel.dart';
@@ -38,19 +39,22 @@ class VenueDetailsState extends State<VenueDetails> {
         String userId = user.uid;
 
         // Add the booking request with the user's ID
-        await FirebaseFirestore.instance.collection('bookingRequests').add({
-          'venueName': widget.venue.name,
-          'userId': userId,
-          'selectedDate': _selectedDate,
-          'selectedEvent': widget.venue.event_type,
-          'selectedCapacity': widget.venue.capacity,
-          'status': 'pending', // Initial status is pending
-        }).then((DocumentReference doc) => print("Document ID: ${doc.id}")).catchError((error)=> print("Error $error"));
+        await FirebaseFirestore.instance
+            .collection('bookingRequests')
+            .add({
+              'venueName': widget.venue.name,
+              'userId': userId,
+              'selectedDate': _selectedDate,
+              'selectedEvent': widget.venue.event_type,
+              'selectedCapacity': widget.venue.capacity,
+              'status': 'pending', // Initial status is pending
+            })
+            .then((DocumentReference doc) => print("Document ID: ${doc.id}"))
+            .catchError((error) => print("Error $error"));
 
         // Navigate to the booking screen after adding the request
         Navigator.push(
           context,
-
           MaterialPageRoute(
             builder: (context) => BookingScreen(
               venueName: widget.venue.name,
@@ -60,7 +64,6 @@ class VenueDetailsState extends State<VenueDetails> {
               userId: userId,
               location: widget.venue.location,
               dates: widget.venue.dates,
-
             ),
           ),
         );
@@ -89,29 +92,44 @@ class VenueDetailsState extends State<VenueDetails> {
           // Image
           SizedBox(
             height: 200.0,
-            child:widget.venue.imagePath.isEmpty?const SizedBox.shrink() :Image.network(
-              widget.venue.imagePath,
-              fit: BoxFit.cover,
-            ),
+            child: widget.venue.imagePath.isEmpty
+                ? const SizedBox.shrink()
+                : Image.network(
+                    widget.venue.imagePath,
+                    fit: BoxFit.cover,
+                  ),
           ),
           // Name
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
               widget.venue.name,
-              style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold, fontFamily: 'Roboto'),
+              style: GoogleFonts.lato(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  color: const Color.fromARGB(255, 46, 17, 97)),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Divider(
+              color: Color.fromARGB(156, 94, 83, 83), // Customize the color
+              thickness: 1, // Customize the thickness
             ),
           ),
           // Description
-          Container(
+          Padding(
             padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(8.0),
-            ),
             child: Text(
               widget.venue.description,
               style: const TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Divider(
+              color: Color.fromARGB(156, 94, 83, 83), // Customize the color
+              thickness: 1, // Customize the thickness
             ),
           ),
           // Address
@@ -122,31 +140,69 @@ class VenueDetailsState extends State<VenueDetails> {
               style: const TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Divider(
+              color: Color.fromARGB(156, 167, 151, 255), // Customize the color
+              thickness: 1, // Customize the thickness
+            ),
+          ),
           // Capacity
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Capacity: ${widget.venue.capacity}',
-              style: const TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
+            child: Row(
+              children: [
+                Icon(Icons.people_alt_rounded),
+                Text(
+                  ' Capacity: ${widget.venue.capacity}',
+                  style: GoogleFonts.lato(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                  color: const Color.fromARGB(255, 46, 17, 97)),
+                ),
+              ],
             ),
           ),
           // Event Type
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Event Type: ${widget.venue.event_type}',
-              style: const TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
+            child: Row(
+              children: [
+                Icon(Icons.celebration_rounded),
+                Text(
+                  'Event Type: ${widget.venue.event_type}',
+                  style: GoogleFonts.lato(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                  color: const Color.fromARGB(255, 46, 17, 97)),
+                ),
+              ],
             ),
           ),
           // Location
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Text(
-              'Location: ${widget.venue.location}',
-              style: const TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
-              
+            child: Row(
+              children: [
+                const Icon(Icons.place_rounded),
+                Text(
+                  'Location: ${widget.venue.location}',
+                  style: GoogleFonts.lato(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                  color: const Color.fromARGB(255, 46, 17, 97)),
+                ),
+              ],
             ),
           ),
+          Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Divider(
+                      color: Color.fromARGB(
+                          156, 94, 83, 83), // Customize the color
+                      thickness: 1, // Customize the thickness
+                    ),
+                  ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
@@ -159,6 +215,7 @@ class VenueDetailsState extends State<VenueDetails> {
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
+                    
                     const SizedBox(height: 4),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,12 +231,22 @@ class VenueDetailsState extends State<VenueDetails> {
               ],
             ),
           ),
+          Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Divider(
+                      color: Color.fromARGB(
+                          156, 94, 83, 83), // Customize the color
+                      thickness: 1, // Customize the thickness
+                    ),
+                  ),
 
           // Book Now Button
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
-              onPressed:()async{await _addBookingRequest();},
+              onPressed: () async {
+                await _addBookingRequest();
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.deepPurpleAccent,
               ),

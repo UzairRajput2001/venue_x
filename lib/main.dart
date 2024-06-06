@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:venue_x/Screens/login_page.dart';
 import 'package:venue_x/Admin/adminhomepage.dart';
 import 'package:venue_x/Screens/splash_screen.dart';
+import 'package:venue_x/User/HomeVenueDetail.dart';
 import 'package:venue_x/User/home_page.dart';
 import 'package:venue_x/data/push_notification.dart';
 import 'package:venue_x/dummypage.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: HomePage(),
     );
   }
 }
