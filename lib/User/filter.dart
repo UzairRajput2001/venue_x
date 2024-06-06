@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
 import 'package:venue_x/User/FilteredVenues.dart';
 import 'package:venue_x/User/HomeVenueDetail.dart';
 import 'package:venue_x/model.dart/venuedetailmodel.dart';
@@ -44,13 +43,6 @@ class _FilterScreenState extends State<FilterScreen> {
                   return DropdownMenuItem(
                     value: location,
                     child: Text(location),
-                    onTap: () {
-                      if (location != 'Select Location') {
-                        setState(() {
-                          selectedLocation = location;
-                        });
-                      }
-                    },
                   );
                 }).toList(),
                 onChanged: (value) {
@@ -71,13 +63,6 @@ class _FilterScreenState extends State<FilterScreen> {
                   return DropdownMenuItem(
                     value: event,
                     child: Text(event),
-                    onTap: () {
-                      if (event != 'Select Event') {
-                        setState(() {
-                          selectedEvent = event;
-                        });
-                      }
-                    },
                   );
                 }).toList(),
                 onChanged: (value) {
@@ -98,13 +83,6 @@ class _FilterScreenState extends State<FilterScreen> {
                   return DropdownMenuItem(
                     value: capacity,
                     child: Text(capacity),
-                    onTap: () {
-                      if (capacity != 'Select Capacity') {
-                        setState(() {
-                          selectedCapacity = capacity;
-                        });
-                      }
-                    },
                   );
                 }).toList(),
                 onChanged: (value) {
@@ -137,76 +115,76 @@ class _FilterScreenState extends State<FilterScreen> {
   }
 
   Future<List<Venue>> fetchVenuesFromFirestore() async {
-  try {
-    final venuesCollection = FirebaseFirestore.instance.collection('venues');
-    Query query = venuesCollection;
+    try {
+      final venuesCollection = FirebaseFirestore.instance.collection('venues');
+      Query query = venuesCollection;
 
-    // Apply filters
-    if (selectedLocation != 'Select Location') {
-      query = query.where('venue_location', isEqualTo: selectedLocation);
-    }
-    if (selectedEvent != 'Select Event') {
-      query = query.where('event_type', isEqualTo: selectedEvent);
-    }
-    if (selectedCapacity != 'Select Capacity') {
-      int capacityLowerBound = 0;
-      int capacityUpperBound = 0;
-      
-      switch (selectedCapacity) {
-        case '200 Peoples':
-          capacityLowerBound = 0;
-          capacityUpperBound = 200;
-          break;
-        case '500 Peoples':
-          capacityLowerBound = 201;
-          capacityUpperBound = 500;
-          break;
-        case '700 Peoples':
-          capacityLowerBound = 501;
-          capacityUpperBound = 700;
-          break;
-        case 'more than 1000 Peoples':
-          capacityLowerBound = 701;
-          break;
-        default:
-          break;
+      // Apply filters
+      if (selectedLocation != 'Select Location') {
+        query = query.where('venue_location', isEqualTo: selectedLocation);
+      }
+      if (selectedEvent != 'Select Event') {
+        query = query.where('event_type', isEqualTo: selectedEvent);
+      }
+      if (selectedCapacity != 'Select Capacity') {
+        int capacityLowerBound = 0;
+        int capacityUpperBound = 0;
+        
+        switch (selectedCapacity) {
+          case '200 Peoples':
+            capacityLowerBound = 0;
+            capacityUpperBound = 200;
+            break;
+          case '500 Peoples':
+            capacityLowerBound = 201;
+            capacityUpperBound = 500;
+            break;
+          case '700 Peoples':
+            capacityLowerBound = 501;
+            capacityUpperBound = 700;
+            break;
+          case 'more than 1000 Peoples':
+            capacityLowerBound = 1001;
+            break;
+          default:
+            break;
+        }
+
+        if (capacityLowerBound > 0) {
+          query = query.where('capacity', isGreaterThanOrEqualTo: capacityLowerBound);
+        }
+        if (capacityUpperBound > 0) {
+          query = query.where('capacity', isLessThanOrEqualTo: capacityUpperBound);
+        }
       }
 
-      if (capacityLowerBound > 0) {
-        query = query.where('capacity', isGreaterThanOrEqualTo: capacityLowerBound);
-      }
-      if (capacityUpperBound > 0) {
-        query = query.where('capacity', isLessThanOrEqualTo: capacityUpperBound);
-      }
+      QuerySnapshot querySnapshot = await query.get();
+
+      print('Fetched ${querySnapshot.docs.length} venues.');
+
+      List<Venue> venues = querySnapshot.docs.map((doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return Venue(
+          imagePath: data['image_url'] ?? '',
+          name: data['name'] ?? '',
+          capacity: data['capacity'] ?? 0,
+          dates: (data['available_dates'] as List<dynamic>?)
+              ?.map((date) => DateTime.parse(date as String))
+              .toList() ?? [],
+          description: data['description'] ?? '',
+          address: data['address'] ?? '',
+          event_type: data['event_type'] ?? '',
+          location: data['venue_location'] ?? '',
+        );
+      }).toList();
+
+      print('Filtered venues: $venues');
+
+      return venues;
+
+    } catch (e) {
+      print('Error fetching venues: $e');
+      return []; // Return an empty list if there's an error
     }
-
-    QuerySnapshot querySnapshot = await query.get();
-
-    print('Fetched ${querySnapshot.docs.length} venues.');
-
-    List<Venue> venues = querySnapshot.docs.map((doc) {
-      final data = doc.data() as Map<String, dynamic>;
-      return Venue(
-        imagePath: data['image_url'] ?? '',
-        name: data['name'] ?? '',
-        capacity: data['capacity'] ?? 0,
-        dates: (data['available_dates'] as List<dynamic>?)
-            ?.map((timestamp) => (timestamp as Timestamp).toDate())
-            .toList() ?? [],
-        description: data['description'] ?? '',
-        address: data['address'] ?? '',
-        event_type: data['event_type'] ?? '',
-        location: data['venue_location'] ?? '',
-      );
-    }).toList();
-
-    print('Filtered venues: $venues');
-
-    return venues;
-
-  } catch (e) {
-    print('Error fetching venues: $e');
-    return []; // Return an empty list if there's an error
   }
-}
 }

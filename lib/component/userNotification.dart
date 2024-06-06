@@ -1,71 +1,57 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
+
 import 'package:flutter/material.dart';
 import 'package:venue_x/data/pushNotificationServices.dart';
 import 'package:venue_x/model.dart/notificationmodel.dart';
 
-class NotificationScreen extends StatefulWidget {
-  const NotificationScreen({super.key});
-
-  @override
-  State<NotificationScreen> createState() => _NotificationScreenState();
-}
-
-class _NotificationScreenState extends State<NotificationScreen> {
-  late List<Map<String, dynamic>> _bookingRequests = [];
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchBookingRequests();
-  }
-
-  Future<void> _fetchBookingRequests() async {
-    try {
-      final querySnapshot = await FirebaseFirestore.instance
-          .collection('bookingRequests')
-          .where('userId', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
-          .where('status', isNotEqualTo: 'pending')
-          .get();
-
-      final List<Map<String, dynamic>> requests = querySnapshot.docs.map((doc) {
-        final data = doc.data();
-        return {
-          'id': doc.id,
-          'venueName': data['venueName'],
-          'status': data['status'],
-        };
-      }).toList();
-
-      setState(() {
-        _bookingRequests = requests;
-      });
-    } catch (e) {
-      print('Error fetching booking requests: $e');
-    }
-  }
-
+class NotificationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    void _acceptBookingRequest(String requestId) {
+  // Implement accept logic here
+  PushNotificationService().showNotification(
+    "Booking Confirmed",
+    "Your booking has been confirmed.",
+  );
+}
+ void _rejectBookingRequest(String requestId) {
+    // Implement reject logic here
+      PushNotificationService().showNotification(
+    "Booking Rejected",
+    "Your booking has been rejected try again."
+      );
+  }
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Notifications'),
+        title: Text('Notifications'),
       ),
-      body: ListView.builder(
-        itemCount: _bookingRequests.length,
-        itemBuilder: (context, index) {
-          final booking = _bookingRequests[index];
-          final status = booking['status'];
-          final statusColor = status == 'active' ? Colors.green : Colors.red;
-
-          return ListTile(
-            title: Text(booking['venueName']),
-            trailing: Text(
-              status,
-              style: TextStyle(color: statusColor),
-            ),
-            
-          );
+      body: FutureBuilder<List<Noti>>(
+        future: PushNotificationService().getNotifications(), // Fetch notifications from PushNotificationService
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else {
+            List<Noti> notifications = snapshot.data!;
+            return ListView.builder(
+              itemCount: notifications.length,
+              itemBuilder: (context, index) {
+                final notification = notifications[index];
+                return Card(
+                  child: ListTile(
+                    title: Text(notification.title),
+                    subtitle: Text(notification.message),
+                    trailing: Text(
+                      '${notification.date.hour}:${notification.date.minute}',
+                      style: TextStyle(color: Colors.grey, fontSize: 12),
+                    ),
+                  ),
+                );
+                
+              },
+            );
+          }
         },
       ),
     );

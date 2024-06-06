@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:venue_x/Admin/AdminChatScreen.dart';
 
@@ -20,15 +21,22 @@ class AdminActiveBookingScreenState extends State<AdminActiveBookingScreen> {
   }
 
   Future<void> _fetchBookingRequests() async {
+    final _currentUser = FirebaseAuth.instance.currentUser!.uid;
     try {
       final querySnapshot = await FirebaseFirestore.instance
           .collection('bookingRequests')
           .where('status', isEqualTo: 'active')
+          .where('adminId', isEqualTo: _currentUser)
           .get();
 
-      final List<BookingRequest> requests = querySnapshot.docs
-          .map((doc) => BookingRequest.fromSnapshot(doc))
-          .toList();
+      final List<BookingRequest> requests = [];
+      for (final doc in querySnapshot.docs) {
+      
+        final data = doc.data() as Map<String, dynamic>;
+        final userName = await _fetchUserName(data['userId']);
+        final venueName = data['venueName'];
+        requests.add(BookingRequest(id: doc.id, userName: userName, venueName:venueName ));
+      }
 
       setState(() {
         _bookingRequests = requests;
@@ -38,11 +46,24 @@ class AdminActiveBookingScreenState extends State<AdminActiveBookingScreen> {
     }
   }
 
+  Future<String> _fetchUserName(String userId) async {
+    try {
+      final userDoc =
+          await FirebaseFirestore.instance.collection('users').doc(userId).get();
+      final userData = userDoc.data() as Map<String, dynamic>;
+      return userData['name'] ?? 'Unknown';
+    } catch (e) {
+      print('Error fetching user data: $e');
+      return 'Unknown';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Active Bookings'),
+        title: const Text('Active Bookings Chat'),
+        centerTitle: true,
       ),
       body: _bookingRequests.isNotEmpty
           ? ListView.builder(
@@ -50,7 +71,8 @@ class AdminActiveBookingScreenState extends State<AdminActiveBookingScreen> {
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    title: Text(_bookingRequests[index].venueName),
+                    title: Text(_bookingRequests[index].userName),
+                    subtitle: Text(_bookingRequests[index].venueName),
                     onTap: () {
                       Navigator.push(
                         context,
@@ -72,18 +94,13 @@ class AdminActiveBookingScreenState extends State<AdminActiveBookingScreen> {
 
 class BookingRequest {
   final String id;
+  final String userName;
   final String venueName;
 
   BookingRequest({
     required this.id,
+    required this.userName,
     required this.venueName,
-  });
 
-  factory BookingRequest.fromSnapshot(DocumentSnapshot snapshot) {
-    final data = snapshot.data() as Map<String, dynamic>;
-    return BookingRequest(
-      id: snapshot.id,
-      venueName: data['venueName'] ?? '',
-    );
-  }
+  });
 }

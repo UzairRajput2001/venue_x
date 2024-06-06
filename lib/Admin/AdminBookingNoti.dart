@@ -39,7 +39,7 @@ class AdminBookingScreenState extends State<AdminBookingScreen> {
       List<String> venueList = getVenueList.get('venues').cast<String>();
       final querySnapshot = await FirebaseFirestore.instance
           .collection('bookingRequests')
-          .where("venueName", whereIn: venueList)
+          .where("venueName", whereIn: venueList).where('status',isEqualTo: 'pending')
           .get();
       final List<BookingRequest> requests = [];
       for (var doc in querySnapshot.docs) {
@@ -113,6 +113,7 @@ class AdminBookingScreenState extends State<AdminBookingScreen> {
   }
 
   void _acceptBookingRequest(String requestId, String userDeviceToken) async {
+    final _currentUser =FirebaseAuth.instance.currentUser!.uid;
     DocumentReference bookingRef =
         FirebaseFirestore.instance.collection('bookingRequests').doc(requestId);
 
@@ -124,7 +125,7 @@ class AdminBookingScreenState extends State<AdminBookingScreen> {
       'timestamp': DateTime.now(),
     });
 
-    await bookingRef.update({'status': 'active'});
+    await bookingRef.update({'status': 'active', 'adminId':_currentUser});
 
     if (userDeviceToken.isNotEmpty) {
       PushNotificationService().showNotification(
@@ -134,19 +135,22 @@ class AdminBookingScreenState extends State<AdminBookingScreen> {
     } else {
       print("User device token not available");
     }
+    setState(() {
+       _fetchBookingRequests();
+    });
   }
 
   void _rejectBookingRequest(String requestId, String userDeviceToken) async {
     DocumentReference bookingRef =
         FirebaseFirestore.instance.collection('bookingRequests').doc(requestId);
 
-    CollectionReference chatsRef = bookingRef.collection('chats');
+    // CollectionReference chatsRef = bookingRef.collection('chats');
 
-    await chatsRef.add({
-      'sender': 'Admin',
-      'message': 'Your booking has been rejected',
-      'timestamp': DateTime.now(),
-    });
+    // await chatsRef.add({
+    //   'sender': 'Admin',
+    //   'message': 'Your booking has been rejected',
+    //   'timestamp': DateTime.now(),
+    // });
 
     await bookingRef.update({'status': 'rejected'});
 
@@ -158,6 +162,9 @@ class AdminBookingScreenState extends State<AdminBookingScreen> {
     } else {
       print("User device token not available");
     }
+    setState(() {
+       _fetchBookingRequests();
+    });
   }
 }
 
