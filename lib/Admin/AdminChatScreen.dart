@@ -32,7 +32,7 @@ class _AdminChatScreenState extends State<AdminChatScreen> {
           .collection('bookingRequests')
           .doc(widget.documentId)
           .collection('chats')
-          .orderBy('timestamp')
+          .orderBy('timestamp',descending: true)
           .get();
 
       final List<types.Message> messages = querySnapshot.docs.map((doc) {

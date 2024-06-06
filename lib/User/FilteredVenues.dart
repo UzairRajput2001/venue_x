@@ -17,17 +17,19 @@ class VenueListScreen extends StatelessWidget {
         itemCount: venues.length,
         itemBuilder: (context, index) {
           final venue = venues[index];
-          return ListTile(
-            title: Text(venue.name),
-            subtitle: Text('Location: ${venue.location}, Event: ${venue.event_type}, Capacity: ${venue.capacity}'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => VenueDetails(venue: venue),
-                ),
-              );
-            },
+          return Card(
+            child: ListTile(
+              title: Text(venue.name),
+              subtitle: Text('Location: ${venue.location}, Event: ${venue.event_type}, Capacity: ${venue.capacity}'),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => VenueDetails(venue: venue),
+                  ),
+                );
+              },
+            ),
           );
         },
       ),

@@ -14,11 +14,11 @@ class FilterScreen extends StatefulWidget {
 class _FilterScreenState extends State<FilterScreen> {
   String selectedLocation = 'Select Location';
   String selectedEvent = 'Select Event';
-  String selectedCapacity = 'Select Capacity';
+  // String selectedCapacity = 'Select Capacity';
 
   List<String> locations = ['Select Location', 'Hyderabad', 'Latifabad', 'Qasimabad'];
   List<String> events = ['Select Event', 'Marriage', 'Birthday Party', 'Others'];
-  List<String> capacities = ['Select Capacity', '200 Peoples', '500 Peoples', '700 Peoples', 'more than 1000 Peoples'];
+  // List<String> capacities = ['Select Capacity', '200 Peoples', '500 Peoples', '700 Peoples', 'more than 1000 Peoples'];
 
   @override
   Widget build(BuildContext context) {
@@ -72,26 +72,26 @@ class _FilterScreenState extends State<FilterScreen> {
                 },
               ),
               const SizedBox(height: 10),
-              DropdownButtonFormField<String>(
-                value: selectedCapacity,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                ),
-                items: capacities.map((capacity) {
-                  return DropdownMenuItem(
-                    value: capacity,
-                    child: Text(capacity),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    selectedCapacity = value!;
-                  });
-                },
-              ),
-              const SizedBox(height: 20),
+              // DropdownButtonFormField<String>(
+              //   value: selectedCapacity,
+              //   decoration: InputDecoration(
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.circular(10.0),
+              //     ),
+              //   ),
+              //   items: capacities.map((capacity) {
+              //     return DropdownMenuItem(
+              //       value: capacity,
+              //       child: Text(capacity),
+              //     );
+              //   }).toList(),
+              //   onChanged: (value) {
+              //     setState(() {
+              //       selectedCapacity = value!;
+              //     });
+              //   },
+              // ),
+              // const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () async {
                   List<Venue> venues = await fetchVenuesFromFirestore();
@@ -126,37 +126,7 @@ class _FilterScreenState extends State<FilterScreen> {
       if (selectedEvent != 'Select Event') {
         query = query.where('event_type', isEqualTo: selectedEvent);
       }
-      if (selectedCapacity != 'Select Capacity') {
-        int capacityLowerBound = 0;
-        int capacityUpperBound = 0;
-        
-        switch (selectedCapacity) {
-          case '200 Peoples':
-            capacityLowerBound = 0;
-            capacityUpperBound = 200;
-            break;
-          case '500 Peoples':
-            capacityLowerBound = 201;
-            capacityUpperBound = 500;
-            break;
-          case '700 Peoples':
-            capacityLowerBound = 501;
-            capacityUpperBound = 700;
-            break;
-          case 'more than 1000 Peoples':
-            capacityLowerBound = 1001;
-            break;
-          default:
-            break;
-        }
-
-        if (capacityLowerBound > 0) {
-          query = query.where('capacity', isGreaterThanOrEqualTo: capacityLowerBound);
-        }
-        if (capacityUpperBound > 0) {
-          query = query.where('capacity', isLessThanOrEqualTo: capacityUpperBound);
-        }
-      }
+     
 
       QuerySnapshot querySnapshot = await query.get();
 
@@ -168,9 +138,7 @@ class _FilterScreenState extends State<FilterScreen> {
           imagePath: data['image_url'] ?? '',
           name: data['name'] ?? '',
           capacity: data['capacity'] ?? 0,
-          dates: (data['available_dates'] as List<dynamic>?)
-              ?.map((date) => DateTime.parse(date as String))
-              .toList() ?? [],
+          dates: (data['available_dates'] )?? [],
           description: data['description'] ?? '',
           address: data['address'] ?? '',
           event_type: data['event_type'] ?? '',
