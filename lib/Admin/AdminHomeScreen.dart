@@ -25,98 +25,191 @@ class OwnerHomePage extends StatelessWidget {
                     color: Colors.black),
               ),
               const SizedBox(height: 40),
-              Container(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
+              Column(
+                children: [
+                  Container(
+                    width: 300,
+                    height: 100,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10,
+                            offset: Offset(0, 5),
+                          )
+                        ]),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>  AddVenueScreen()),
                     );
-                  },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 20),
-                      shadowColor: Color.fromRGBO(0, 0, 0, 0.694)),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Text('Add Venues',
-                            style: TextStyle(
-                                fontFamily: 'outfit',
-                                fontSize: 20,
-                                color: Colors.white)),
-                        const Icon(
-                          Icons.edit_note,
-                          color: Colors.white,
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                      ]),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Container(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
+                        padding: EdgeInsets.all(16),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Add Venues',
+                            style: GoogleFonts.lato(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(width: 25),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Transform.scale(
+                              scale: 1.2,
+                              child: Image.asset(
+                                'assets/images/addimage.png', // Dummy background image URL
+                                width: 125,
+                                height: 120,
+                                fit: BoxFit.cover,
+                                
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    width: 300,
+                    height: 100,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10,
+                            offset: Offset(0, 5),
+                          )
+                        ]),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const VenueScreen(
                                 routeName: 'update',
                               )),
                     );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 20),
-                    textStyle: const TextStyle(fontSize: 20),
-                  ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        const Text('Update Venues',
-                            style: TextStyle(
-                                fontFamily: 'outfit',
-                                fontSize: 20,
-                                color: Colors.white)),
-                        const Icon(
-                          Icons.update,
-                          color: Colors.white,
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
-                      ]),
-                ),
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            const VenueScreen(routeName: "delete")),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                  textStyle: const TextStyle(fontSize: 20),
-                ),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      const Text('Delete Venues',
-                          style: TextStyle(
-                              fontFamily: 'outfit',
-                              fontSize: 20,
-                              color: Colors.white)),
-                      const Icon(
-                        Icons.delete_outline_outlined,
-                        color: Colors.white,
+                        padding: EdgeInsets.all(16),
                       ),
-                    ]),
-              ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Update Venues',
+                            style: GoogleFonts.lato(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(width: 15),
+                          Transform.scale(
+                            scale: 1.2,
+                            child: Image.asset(
+                                'assets/images/update.png', // Dummy background image URL
+                                width: 125,
+                                height: 150,
+                                fit: BoxFit.cover,
+
+                                
+                              ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    width: 300,
+                    height: 100,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 10,
+                            offset: Offset(0, 5),
+                          )
+                        ]),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const VenueScreen(
+                                    routeName: 'delete',
+                                  )),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        shadowColor: Colors.transparent,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        
+                        
+                        padding: EdgeInsets.all(16),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Delete Venues',
+                            style: GoogleFonts.lato(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(width: 20),
+                          Transform.scale(
+                            scale: 1.2,
+                            child: Image.asset(
+                              'assets/images/delete.jpg', // Dummy background image URL
+                              width: 125,
+                              height: 140,
+                              fit: BoxFit.cover,
+                              
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),

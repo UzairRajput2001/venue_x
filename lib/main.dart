@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:venue_x/Screens/login_page.dart';
-
 import 'package:venue_x/Screens/splash_screen.dart';
 import 'package:venue_x/data/push_notification.dart';
 import 'firebase_options.dart';
@@ -30,3 +28,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+

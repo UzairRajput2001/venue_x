@@ -11,6 +11,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
+      
       body: Padding(
         padding: const EdgeInsets.all(25.0),
         child: Column(
@@ -29,6 +30,7 @@ class WelcomeScreen extends StatelessWidget {
                   child: Divider(color: Colors.grey,
                   thickness: 2,),
                 ),
+                
             
             Text('Find Venue in a Easy Way.',
             style: GoogleFonts.outfit(fontSize: 20)),
