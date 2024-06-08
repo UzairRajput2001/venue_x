@@ -65,7 +65,9 @@ class AdminBookingScreenState extends State<AdminBookingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      appBar: AppBar(
+
+      ),
       // ignore: unnecessary_null_comparison
       body: _bookingRequests != null
           ? ListView.builder(

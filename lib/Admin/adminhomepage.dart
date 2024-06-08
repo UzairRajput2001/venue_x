@@ -28,7 +28,8 @@ class _AdminHomeState extends State<AdminHome>{
     return Scaffold(
       drawer: AdminNavBar(),
       appBar: AppBar(
-        title: const Text('Home',style:TextStyle(color: Colors.white)),
+        centerTitle: true,
+        title: Text('Home',style:GoogleFonts.outfit(fontWeight: FontWeight.bold,color: Colors.white)),
         iconTheme: IconThemeData(
           color: Colors.white,
         ),

@@ -19,11 +19,16 @@ class WelcomeScreen extends StatelessWidget {
           children:[
             const Padding(
               padding: EdgeInsets.all(30.0),
-              child: Image(image: AssetImage("assets/images/logo.png")),
+              child: Center(child: Image(image: AssetImage("assets/images/logo.png"))),
             ),
             Text(
                 'The Easy Way to Find Venue',
                 style:GoogleFonts.poppins(fontSize: 50, fontWeight: FontWeight.bold)),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Divider(color: Colors.grey,
+                  thickness: 2,),
+                ),
             
             Text('Find Venue in a Easy Way.',
             style: GoogleFonts.outfit(fontSize: 20)),

@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 10),
+              
               const Center(
                 child: Image(
                     image: AssetImage('assets/images/logo.png'),
@@ -226,63 +226,58 @@ class _LoginPageState extends State<LoginPage> {
               ),
               const SizedBox(height: 20.0),
               Center(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RegistrationPage()));
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 0, 0, 0), // Set the background color
-                    padding: EdgeInsets.symmetric(
-                        vertical: 20.0,
-                        horizontal: 30.0), // Add some padding for better look
-                  ),
-                  child: Text.rich(
-                    TextSpan(
-                      text: "For User ! ",
-                      style: GoogleFonts.notoSansJp(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold), // Set text color to white for visibility
-                      children: [
-                        TextSpan(
-                            text: "Register",
-                            style: TextStyle(color: Colors.blue)),
-                      ],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("   Register as an User !",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        )),
+                    SizedBox(
+                      width: 5,
                     ),
-                  ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RegistrationPage()),
+                        );
+                      },
+                      child: Text("Sign Up",
+                          style: TextStyle(
+                              fontSize: 16, color: Color(0xFF927CCF))),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 10),
-
               Center(
-                child: TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AdminRegistrationPage()));
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 0, 0, 0), // Set the background color
-                    padding:
-                        EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
-                  ),
-                  child: Text.rich(
-                    TextSpan(
-                      text: "For Venue Owner ! ",
-                      style: GoogleFonts.notoSansJp(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      children: const [
-                        TextSpan(
-                            text: "Register",
-                            style: TextStyle(color: Colors.blue)),
-                      ],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Register as an Venue Owner !",
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                        )),
+                    SizedBox(
+                      width: 5,
                     ),
-                  ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AdminRegistrationPage()),
+                        );
+                      },
+                      child: Text("Sign Up",
+                          style: TextStyle(
+                              fontSize: 16, color: Color(0xFF927CCF))),
+                    ),
+                  ],
                 ),
               ),
             ],

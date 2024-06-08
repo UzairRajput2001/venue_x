@@ -16,7 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> _navigateToWelcomeScreen() async {
-    await Future.delayed(Duration(milliseconds: 2000)); // Delay for 2 seconds
+    await Future.delayed(Duration(milliseconds: 3000)); // Delay for 2 seconds
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => WelcomeScreen()),
