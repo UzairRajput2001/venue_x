@@ -12,7 +12,9 @@ class VenueListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      appBar: AppBar(
+        title: Text('Filter List',style: GoogleFonts.outfit(fontWeight: FontWeight.bold),),
+      ),
       body: ListView.builder(
         itemCount: venues.length,
         itemBuilder: (context, index) {

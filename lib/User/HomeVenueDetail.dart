@@ -84,7 +84,9 @@ class VenueDetailsState extends State<VenueDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
+      appBar: AppBar(
+        
+      ),
       body: ListView(
         children: [
           // Image

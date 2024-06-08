@@ -27,8 +27,8 @@ class BookingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Booking Confirmation'),
-        backgroundColor: Colors.indigo,
+        title:  Center(child: Text('Booking Confirmation',style: GoogleFonts.outfit(fontWeight: FontWeight.bold),)),
+        backgroundColor: Colors.white,
       ),
       body: Stack(
         children: [

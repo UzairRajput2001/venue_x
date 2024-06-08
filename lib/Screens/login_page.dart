@@ -234,20 +234,20 @@ class _LoginPageState extends State<LoginPage> {
                             builder: (context) => RegistrationPage()));
                   },
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.indigo, // Set the background color
+                    backgroundColor: Color.fromARGB(255, 0, 0, 0), // Set the background color
                     padding: EdgeInsets.symmetric(
                         vertical: 20.0,
-                        horizontal: 10.0), // Add some padding for better look
+                        horizontal: 30.0), // Add some padding for better look
                   ),
                   child: Text.rich(
                     TextSpan(
-                      text: "Don't Have an Account? ",
+                      text: "For User ! ",
                       style: GoogleFonts.notoSansJp(
-                          color: Colors
-                              .white), // Set text color to white for visibility
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold), // Set text color to white for visibility
                       children: [
                         TextSpan(
-                            text: "Signup",
+                            text: "Register",
                             style: TextStyle(color: Colors.blue)),
                       ],
                     ),
@@ -265,15 +265,16 @@ class _LoginPageState extends State<LoginPage> {
                             builder: (context) => AdminRegistrationPage()));
                   },
                   style: TextButton.styleFrom(
-                    backgroundColor: Colors.indigo, // Set the background color
+                    backgroundColor: Color.fromARGB(255, 0, 0, 0), // Set the background color
                     padding:
                         EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
                   ),
                   child: Text.rich(
                     TextSpan(
-                      text: "Register as an Venue Owner! ",
+                      text: "For Venue Owner ! ",
                       style: GoogleFonts.notoSansJp(
-                        color: Colors.white
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                       children: const [
                         TextSpan(

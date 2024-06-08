@@ -8,7 +8,8 @@ class NotificationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notifications'),
+        centerTitle: true,
+        title: Text('Notifications',style: GoogleFonts.outfit(fontWeight: FontWeight.bold),),
       ),
       body: FutureBuilder<List<BookingRequest>>(
         future: _fetchBookingRequests(),
