@@ -121,7 +121,7 @@ class _VenueScreenState extends State<VenueScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
+                        Text(
                           'Dates:',
                           style: TextStyle(
                               fontSize: 12, fontWeight: FontWeight.bold),

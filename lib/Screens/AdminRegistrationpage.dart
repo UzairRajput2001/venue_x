@@ -14,13 +14,17 @@ class AdminRegistrationPage extends StatelessWidget {
 
   Future<void> _registerVenueOwner(BuildContext context) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: _emailController.text,
         password: _passwordController.text,
       );
 
       // Add venue owner data to Firestore
-      await FirebaseFirestore.instance.collection('venueOwners').doc(userCredential.user!.uid).set({
+      await FirebaseFirestore.instance
+          .collection('venueOwners')
+          .doc(userCredential.user!.uid)
+          .set({
         'name': _nameController.text,
         'email': _emailController.text,
         'phone': _phoneNumberController.text,
@@ -53,7 +57,8 @@ class AdminRegistrationPage extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Registration Failed'),
-            content: const Text('Failed to create your account. Please try again.'),
+            content:
+                const Text('Failed to create your account. Please try again.'),
             actions: <Widget>[
               TextButton(
                 child: const Text('OK'),
@@ -76,19 +81,18 @@ class AdminRegistrationPage extends StatelessWidget {
       resizeToAvoidBottomInset: true,
       backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
       appBar: AppBar(
-        title: Center(child: Text('Admin Registeration Page')),
         elevation: 0,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              size: 20,
-              color: Colors.black,
-            ),
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+            color: Colors.black,
           ),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -96,17 +100,22 @@ class AdminRegistrationPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 10),
+            const SizedBox(height: 10),
               const Center(
-                child: Image(image: AssetImage('assets/images/logo.png'), height: 100, alignment: Alignment.center),
+                child: Image(
+                    image: AssetImage('assets/images/logo.png'),
+                    ),
               ),
-              Text(
-                "Register to App",
-                style: GoogleFonts.outfit(
-                  textStyle: const TextStyle(
-                    color: Color.fromARGB(255, 0, 0, 0),
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.bold,
+              const SizedBox(height: 20),
+              Center(
+                child: Text(
+                  "Register to App",
+                  style: GoogleFonts.outfit(
+                    textStyle: const TextStyle(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
@@ -116,8 +125,13 @@ class AdminRegistrationPage extends StatelessWidget {
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   hintText: "Name of the Venue",
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20)),
                   prefixIcon: const Icon(Icons.person),
+                ),
+                style: GoogleFonts.outfit(
+                  textStyle: const TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.black),
                 ),
               ),
               const SizedBox(height: 20.0),
@@ -126,8 +140,13 @@ class AdminRegistrationPage extends StatelessWidget {
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   hintText: "Venue Email",
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20)),
                   prefixIcon: const Icon(Icons.mail_rounded),
+                ),
+                style: GoogleFonts.outfit(
+                  textStyle: const TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.black),
                 ),
               ),
               const SizedBox(height: 20.0),
@@ -136,8 +155,13 @@ class AdminRegistrationPage extends StatelessWidget {
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
                   hintText: "Venue Phone Number",
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20)),
                   prefixIcon: const Icon(Icons.phone),
+                ),
+                style: GoogleFonts.outfit(
+                  textStyle: const TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.black),
                 ),
               ),
               const SizedBox(height: 20.0),
@@ -148,16 +172,23 @@ class AdminRegistrationPage extends StatelessWidget {
                     obscureText: !_isPasswordVisible,
                     decoration: InputDecoration(
                       hintText: "Password",
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20)),
                       prefixIcon: const Icon(Icons.lock),
                       suffixIcon: IconButton(
-                        icon: Icon(_isPasswordVisible ? Icons.visibility : Icons.visibility_off),
+                        icon: Icon(_isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off),
                         onPressed: () {
                           setState(() {
                             _isPasswordVisible = !_isPasswordVisible;
                           });
                         },
                       ),
+                    ),
+                    style: GoogleFonts.outfit(
+                      textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black),
                     ),
                   );
                 },
@@ -169,7 +200,8 @@ class AdminRegistrationPage extends StatelessWidget {
                   fillColor: Colors.deepPurpleAccent,
                   elevation: 0.0,
                   padding: const EdgeInsets.symmetric(vertical: 15.0),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0)),
                   onPressed: () => _registerVenueOwner(context),
                   child: const Text(
                     "Register",

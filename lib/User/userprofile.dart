@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class UserProfileScreen extends StatefulWidget {
   const UserProfileScreen({super.key});
@@ -32,7 +33,9 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User Profile'),
+        title: Center(child:Text('User Profile',style: GoogleFonts.outfit(fontWeight: FontWeight.bold))),
+        backgroundColor: Colors.white,
+        
       ),
       body: _user != null
           ? Padding(
@@ -47,19 +50,25 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  Text(
-                    'Name: ${_userData['name'] ?? 'User'}',
-                    style: const TextStyle(fontSize: 20),
+                  Center(
+                    child: Text(
+                      'Name: ${_userData['name'] ?? 'User'}',
+                      style:  GoogleFonts.outfit(fontSize: 20),
+                    ),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    'Email: ${_user!.email ?? 'user@gmail.com'}',
-                    style: const TextStyle(fontSize: 20),
+                  Center(
+                    child: Text(
+                      'Email: ${_user!.email ?? 'user@gmail.com'}',
+                      style:  GoogleFonts.outfit(fontSize: 20),
+                    ),
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    'Phone Number: ${_userData['phone'] ?? '1234567890'}',
-                    style: const TextStyle(fontSize: 20),
+                  Center(
+                    child: Text(
+                      'Phone Number: ${_userData['phone'] ?? '1234567890'}',
+                      style:  GoogleFonts.outfit(fontSize: 20),
+                    ),
                   ),
                 ],
               ),

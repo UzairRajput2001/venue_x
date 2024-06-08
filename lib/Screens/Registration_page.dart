@@ -4,15 +4,19 @@ import 'package:venue_x/Screens/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// import 'package:untitled1/Screens/login_page.dart';
+class RegistrationPage extends StatefulWidget {
+  RegistrationPage({super.key});
 
-class RegistrationPage extends StatelessWidget {
+  @override
+  _RegistrationPageState createState() => _RegistrationPageState();
+}
+
+class _RegistrationPageState extends State<RegistrationPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  RegistrationPage({super.key});
+  bool _isPasswordVisible = false;
 
   Future<void> _signUp(BuildContext context) async {
     try {
@@ -78,204 +82,179 @@ class RegistrationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: true,
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          title: Text('User Registration Page'),
-          elevation: 0,
-          backgroundColor: Colors.white,
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              size: 20,
-              color: Colors.black,
-            ),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+            color: Colors.black,
           ),
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 15,
-            ),
-            height: MediaQuery.of(context).size.height - 50,
-            width: double.infinity,
-            child: Column(
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          height: MediaQuery.of(context).size.height - 50,
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Column(
                 mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      //image
-                      const Image(
-                        image: AssetImage("assets/images/logo.png"),
-                      ),
-
-                      const SizedBox(
-                        height: 20,
-                      ),
-
-                      //text
-                      Text(
-                        "Register to App",
-                        style: GoogleFonts.outfit(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 0, 0, 0),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      TextField(
-                        controller: _nameController,
-                        keyboardType: TextInputType.name,
-                        decoration: InputDecoration(
-                          hintText: "Name",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          prefixIcon: const Icon(
-                            Icons.contact_phone,
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: InputDecoration(
-                          hintText: "Email",
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20)),
-                          prefixIcon: const Icon(
-                            Icons.mail_rounded,
-                            color: Colors.black,
-                          ),
-                        ),
-                        style: GoogleFonts.outfit(
-                          textStyle: const TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                        ),
-                      ),
-
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextField(
-                        controller: _phoneNumberController,
-                        keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
-                            hintText: "Phone Number",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            prefixIcon: const Icon(
-                              Icons.mail_rounded,
-                              color: Colors.black,
-                            )),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      TextField(
-                        controller: _passwordController,
-                        keyboardType: TextInputType.visiblePassword,
-                        decoration: InputDecoration(
-                            hintText: "Password",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20)),
-                            prefixIcon: const Icon(
-                              Icons.fingerprint_rounded,
-                              color: Colors.black,
-                            )),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      SizedBox(
-                        width: double.infinity,
-                        child: RawMaterialButton(
-                          fillColor: Colors.deepPurpleAccent,
-                          elevation: 0.0,
-                          padding: const EdgeInsets.symmetric(vertical: 15.0),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12.0)),
-                          onPressed: () => _signUp(context),
-                          child: const Text(
-                            "Sign Up",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15.0,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text(
-                        "Create an account, It's free",
-                        style: TextStyle(fontSize: 15, color: Colors.black),
-                      ),
-
-                      Center(
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text.rich(
-                            TextSpan(
-                              text: "Already Have an Account?",
-                              style: TextStyle(color: Colors.black),
-                              children: [
-                                TextSpan(
-                                    text: " Log in",
-                                    style: TextStyle(color: Colors.blue))
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                  const Image(
+                    image: AssetImage("assets/images/logo.png"),
                   ),
-                ]),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Register to App",
+                    style: GoogleFonts.outfit(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: const Color.fromARGB(255, 0, 0, 0),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  TextField(
+                    controller: _nameController,
+                    keyboardType: TextInputType.name,
+                    decoration: InputDecoration(
+                      hintText: "Name",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      prefixIcon: const Icon(
+                        Icons.contact_phone,
+                        color: Colors.black,
+                      ),
+                    ),
+                    style: GoogleFonts.outfit(
+                      textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      hintText: "Email",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      prefixIcon: const Icon(
+                        Icons.mail_rounded,
+                        color: Colors.black,
+                      ),
+                    ),
+                    style: GoogleFonts.outfit(
+                      textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _phoneNumberController,
+                    keyboardType: TextInputType.phone,
+                    decoration: InputDecoration(
+                      hintText: "Phone Number",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      prefixIcon: const Icon(
+                        Icons.phone,
+                        color: Colors.black,
+                      ),
+                    ),
+                    style: GoogleFonts.outfit(
+                      textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  TextField(
+                    controller: _passwordController,
+                    obscureText: !_isPasswordVisible,
+                    decoration: InputDecoration(
+                      hintText: "Password",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      prefixIcon: const Icon(
+                        Icons.fingerprint_rounded,
+                        color: Colors.black,
+                      ),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _isPasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _isPasswordVisible = !_isPasswordVisible;
+                          });
+                        },
+                      ),
+                    ),
+                    style: GoogleFonts.outfit(
+                      textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.black),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    child: RawMaterialButton(
+                      fillColor: Colors.deepPurpleAccent,
+                      elevation: 0.0,
+                      padding: const EdgeInsets.symmetric(vertical: 15.0),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.0)),
+                      onPressed: () => _signUp(context),
+                      child: const Text(
+                        "Sign Up",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text(
+                    "Create an account, It's free",
+                    style: TextStyle(fontSize: 15, color: Colors.black),
+                  ),
+                  Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text.rich(
+                        TextSpan(
+                          text: "Already Have an Account?",
+                          style: TextStyle(color: Colors.black),
+                          children: [
+                            TextSpan(
+                                text: " Log in",
+                                style: TextStyle(color: Colors.blue))
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
-        ));
-  }
-
-  Widget makeInput({label, obscureText = false}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          label,
-          style: const TextStyle(
-              fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
         ),
-        const SizedBox(
-          height: 5,
-        ),
-        TextField(
-          obscureText: obscureText,
-          decoration: InputDecoration(
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade400)),
-            border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade400)),
-          ),
-        ),
-        const SizedBox(
-          height: 30,
-        ),
-      ],
+      ),
     );
   }
 }

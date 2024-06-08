@@ -71,7 +71,7 @@ class _DetailsVenuesState extends State<DetailsVenues> {
       appBar: AppBar(
         title: Text(
           'Featured Venues',
-          style: GoogleFonts.lato(fontSize: 25,fontWeight: FontWeight.bold),
+          style: GoogleFonts.outfit(fontSize: 25,fontWeight: FontWeight.bold),
         ),
       ),
       body: ListView.builder(
@@ -152,27 +152,24 @@ class _DetailsVenuesState extends State<DetailsVenues> {
                       thickness: 0.5, // Customize the thickness
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.event ,
-                          color: Colors.black,
-                          size: 20.0,
-                        ),
-                        const SizedBox(height: 4),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: venue.dates.map((date) {
-                            return Text(
-                              date,
-                              style: const TextStyle(fontSize: 12),
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    ),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.event ,
+                        color: Colors.black,
+                        size: 20.0,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: venue.dates.map((date) {
+                          return Text(
+                            date,
+                            style: const TextStyle(fontSize: 12),
+                          );
+                        }).toList(),
+                      ),
+                      
+                    ],
                   ),
                 ],
               ),

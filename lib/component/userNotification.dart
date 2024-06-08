@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class NotificationScreen extends StatelessWidget {
   @override
@@ -25,7 +26,7 @@ class NotificationScreen extends StatelessWidget {
                 return Card(
                   child: ListTile(
                     title: Text(_getNotificationTitle(bookingRequest)),
-                    subtitle: Text('Venue: ${bookingRequest.venueName}'), // Add more details if needed
+                    subtitle: Text('Venue: ${bookingRequest.venueName}',style:GoogleFonts.outfit(color: Colors.indigoAccent)), // Add more details if needed
                     onTap: () {
                       // Handle notification tap
                     },

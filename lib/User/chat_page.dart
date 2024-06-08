@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:venue_x/User/chatscreen.dart';
 
 class UserBookingRequestsScreen extends StatefulWidget {
@@ -32,6 +34,8 @@ class _UserBookingRequestsScreenState extends State<UserBookingRequestsScreen> {
         return {
           'id': doc.id,
           'venueName': data['venueName'],
+          
+          
         };
       }).toList();
 
@@ -48,7 +52,7 @@ class _UserBookingRequestsScreenState extends State<UserBookingRequestsScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text('Chat with Admin'),
+        title: Text('Chat with Admin',style: GoogleFonts.lato(fontWeight: FontWeight.bold)),
       ),
       body: ListView.builder(
         itemCount: _bookingRequests.length,
@@ -56,7 +60,7 @@ class _UserBookingRequestsScreenState extends State<UserBookingRequestsScreen> {
           final booking = _bookingRequests[index];
           return Card(
             child: ListTile(
-              title: Text(booking['venueName']),
+              title: Text(booking['venueName'],style: TextStyle(color: Colors.indigoAccent[200])),
               onTap: () {
                 Navigator.push(
                   context,

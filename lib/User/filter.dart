@@ -25,7 +25,13 @@ class _FilterScreenState extends State<FilterScreen> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Filter'),
+    
+          leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),

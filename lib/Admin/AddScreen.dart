@@ -183,7 +183,7 @@ class _AddVenueScreenState extends State<AddVenueScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Venue'),
+        
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

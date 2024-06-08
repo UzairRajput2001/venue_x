@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:venue_x/User/HomeScreen.dart';
 import 'package:venue_x/User/chat_page.dart';
 import 'package:venue_x/User/chatscreen.dart';
@@ -117,7 +119,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       drawer: const NavBar(),
       appBar: AppBar(
-        backgroundColor: Colors.black26,
+        iconTheme: IconThemeData(
+          color: Colors.white,
+        ),
+        backgroundColor: Colors.indigoAccent,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(15),
@@ -136,6 +141,7 @@ class _HomePageState extends State<HomePage> {
                 },
                 child: Container(
                   height: 40,
+                  width: 20,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
@@ -144,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(left: 10),
-                        child: Icon(Icons.search),
+                        child: Icon(Icons.search,color: Colors.black,),
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 10),
@@ -155,16 +161,32 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            IconButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const FilterScreen()),
-                );
-              },
-              icon: const Icon(Icons.filter_alt_outlined),
-              color: Colors.black,
-            ),
+            Column(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => FilterScreen()),
+                    );
+                  },
+                  style: TextButton.styleFrom(
+                    backgroundColor:
+                        Colors.indigoAccent, // Change the color of the text
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.filter_alt_outlined,
+                          color: Colors.white), // Icon on top
+                      Text('Filter',
+                          style: TextStyle(
+                              color: Colors.white)), // Label on bottom
+                    ],
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),
@@ -179,10 +201,10 @@ class _HomePageState extends State<HomePage> {
           });
         },
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.account_circle_outlined), label: 'Profile'),
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.chat_bubble_outlined), label: 'Chat'),
+              icon: Icon(Icons.chat_bubble_outline), label: 'Chat'),
         ],
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:venue_x/data/pushNotificationServices.dart';
 
 class AdminBookingScreen extends StatefulWidget {
@@ -64,9 +65,7 @@ class AdminBookingScreenState extends State<AdminBookingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('My Bookings'),
-      ),
+      
       // ignore: unnecessary_null_comparison
       body: _bookingRequests != null
           ? ListView.builder(
@@ -74,14 +73,14 @@ class AdminBookingScreenState extends State<AdminBookingScreen> {
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    title: Text('Venue: ${_bookingRequests[index].venueName}'),
+                    title: Text('Venue: ${_bookingRequests[index].venueName}',style: GoogleFonts.lato(color: Colors.indigo[200]),),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                            'Date: ${_bookingRequests[index].selectedDate.day}/${_bookingRequests[index].selectedDate.month}/${_bookingRequests[index].selectedDate.year}'),
+                            'Date: ${_bookingRequests[index].selectedDate.day}/${_bookingRequests[index].selectedDate.month}/${_bookingRequests[index].selectedDate.year}',style: GoogleFonts.lato(color: Colors.black),),
                         Text(
-                            'Capacity: ${_bookingRequests[index].selectedCapacity}'),
+                            'Capacity: ${_bookingRequests[index].selectedCapacity}',style: GoogleFonts.lato(color: Colors.black),),
                       ],
                     ),
                     trailing: 
@@ -89,14 +88,14 @@ class AdminBookingScreenState extends State<AdminBookingScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.check),
+                          icon: const Icon(Icons.check,color: Colors.green,),
                           onPressed: () {
                             _acceptBookingRequest(_bookingRequests[index].id, _bookingRequests[index].userDeviceToken);
                             _showNotificationSnackBar("Booking Accepted");
                           },
                         ),
                         IconButton(
-                          icon: const Icon(Icons.close),
+                          icon: const Icon(Icons.close,color: Colors.red),
                           onPressed: () {
                             _rejectBookingRequest(_bookingRequests[index].id, _bookingRequests[index].userDeviceToken);
                             _showNotificationSnackBar("Booking Rejected");

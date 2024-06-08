@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:venue_x/Admin/AdminChatScreen.dart';
 
 class AdminActiveBookingScreen extends StatefulWidget {
@@ -62,8 +63,9 @@ class AdminActiveBookingScreenState extends State<AdminActiveBookingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Active Bookings Chat'),
         centerTitle: true,
+        title:Text('Chat With Users',style: GoogleFonts.lato(fontWeight: FontWeight.bold)),
+        
       ),
       body: _bookingRequests.isNotEmpty
           ? ListView.builder(
@@ -71,8 +73,8 @@ class AdminActiveBookingScreenState extends State<AdminActiveBookingScreen> {
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    title: Text(_bookingRequests[index].userName),
-                    subtitle: Text(_bookingRequests[index].venueName),
+                    title: Text(_bookingRequests[index].userName,style: TextStyle(color: Colors.indigoAccent[200])),
+                    subtitle: Text(_bookingRequests[index].venueName,style: TextStyle(color: Colors.black)),
                     onTap: () {
                       Navigator.push(
                         context,

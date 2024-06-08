@@ -84,9 +84,7 @@ class VenueDetailsState extends State<VenueDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Venue Details'),
-      ),
+      
       body: ListView(
         children: [
           // Image
@@ -100,6 +98,7 @@ class VenueDetailsState extends State<VenueDetails> {
                   ),
           ),
           // Name
+
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
@@ -107,37 +106,37 @@ class VenueDetailsState extends State<VenueDetails> {
               style: GoogleFonts.lato(
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 46, 17, 97)),
+                  color:  Colors.indigo[300]),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Divider(
-              color: Color.fromARGB(156, 94, 83, 83), // Customize the color
-              thickness: 1, // Customize the thickness
-            ),
-          ),
+          const SizedBox(height: 4,),
+
           // Description
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              widget.venue.description,
-              style: const TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
+          Container(
+            padding: EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Colors.deepPurpleAccent, // Border color
+                width: 2.0, // Border width
+              ),
+              borderRadius: BorderRadius.circular(16.0), // Border radius
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                widget.venue.description,
+                style: GoogleFonts.outfit(
+                  fontSize: 16.0,
+                ),
+              ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Divider(
-              color: Color.fromARGB(156, 94, 83, 83), // Customize the color
-              thickness: 1, // Customize the thickness
-            ),
-          ),
-          // Address
+          const SizedBox(height: 4),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
               'Address: ${widget.venue.address}',
-              style: const TextStyle(fontSize: 16.0, fontFamily: 'OpenSans'),
+              style: GoogleFonts.outfit(fontSize: 16.0),
             ),
           ),
           Padding(
@@ -152,13 +151,13 @@ class VenueDetailsState extends State<VenueDetails> {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Icon(Icons.people_alt_rounded),
+                Icon(Icons.people_alt_outlined,color: Colors.indigo[300]),
                 Text(
                   ' Capacity: ${widget.venue.capacity}',
                   style: GoogleFonts.lato(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 46, 17, 97)),
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.indigo[300]),
                 ),
               ],
             ),
@@ -168,13 +167,13 @@ class VenueDetailsState extends State<VenueDetails> {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                Icon(Icons.celebration_rounded),
+                Icon(Icons.celebration_outlined,color: Colors.indigo[300]),
                 Text(
                   'Event Type: ${widget.venue.event_type}',
                   style: GoogleFonts.lato(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 46, 17, 97)),
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.indigo[300]),
                 ),
               ],
             ),
@@ -184,45 +183,42 @@ class VenueDetailsState extends State<VenueDetails> {
             padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
-                const Icon(Icons.place_rounded),
+                 Icon(Icons.place_outlined,color: Colors.indigo[300]),
                 Text(
                   'Location: ${widget.venue.location}',
                   style: GoogleFonts.lato(
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 46, 17, 97)),
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.indigo[300]),
                 ),
               ],
             ),
           ),
           Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Divider(
-                      color: Color.fromARGB(
-                          156, 94, 83, 83), // Customize the color
-                      thickness: 1, // Customize the thickness
-                    ),
-                  ),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Divider(
+              color: Color.fromARGB(156, 94, 83, 83), // Customize the color
+              thickness: 1, // Customize the thickness
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
               children: [
-                Column(
+                Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      'Available Dates:',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                    ),
-                    
-                    const SizedBox(height: 4),
-                    Column(
+                    Icon(Icons.date_range_rounded),
+                    Text(' Available Date: ',
+                        style: GoogleFonts.lato(
+                            fontSize: 18, fontWeight: FontWeight.bold)),
+                    Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: widget.venue.dates.map((date) {
                         return Text(
                           date,
-                          style: const TextStyle(fontSize: 16),
+                          style: GoogleFonts.lato(
+                              fontSize: 16, fontWeight: FontWeight.bold),
                         );
                       }).toList(),
                     ),
@@ -232,13 +228,12 @@ class VenueDetailsState extends State<VenueDetails> {
             ),
           ),
           Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Divider(
-                      color: Color.fromARGB(
-                          156, 94, 83, 83), // Customize the color
-                      thickness: 1, // Customize the thickness
-                    ),
-                  ),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Divider(
+              color: Color.fromARGB(156, 94, 83, 83), // Customize the color
+              thickness: 1, // Customize the thickness
+            ),
+          ),
 
           // Book Now Button
           Padding(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class BookingScreen extends StatelessWidget {
@@ -16,7 +18,9 @@ class BookingScreen extends StatelessWidget {
     required this.selectedDate,
     required this.selectedCapacity,
     required this.selectedEvent,
-    required this.userId, required this.location, required this.dates,
+    required this.userId,
+    required this.location,
+    required this.dates,
   });
 
   @override
@@ -24,13 +28,10 @@ class BookingScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Booking Confirmation'),
+        backgroundColor: Colors.indigo,
       ),
       body: Stack(
         children: [
-          CustomPaint(
-            size: Size(double.infinity, double.infinity),
-            painter: BackgroundPainter(),
-          ),
           Center(
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -48,74 +49,157 @@ class BookingScreen extends StatelessWidget {
                     Text(
                       'Your booking request for $venueName has been sent!',
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'Roboto',
+                      style: GoogleFonts.outfit(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.indigo.shade200),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Divider(
+                        color: Color.fromARGB(
+                            156, 94, 83, 83), // Customize the color
+                        thickness: 1, // Customize the thickness
+                      ),
+                    ),
+                    Text(
+                      'Current Date: ${DateFormat('yyyy-MM-dd').format(selectedDate)}',
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.lato(
+                        fontSize: 16.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const SizedBox(height: 20.0),
-                    Text(
-                      'Date: ${DateFormat('yyyy-MM-dd').format(selectedDate)}',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        fontFamily: 'Roboto',
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Divider(
+                        color: Color.fromARGB(
+                            156, 94, 83, 83), // Customize the color
+                        thickness: 1, // Customize the thickness
                       ),
                     ),
-                    const SizedBox(height: 10.0),
-                    Text(
-                      'Capacity: $selectedCapacity',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        fontFamily: 'Roboto',
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.people_alt_outlined),
+                          const SizedBox(width: 8.0,),
+                          Text(
+                            'Capacity: $selectedCapacity',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.lato(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 10.0),
-                    Text(
-                      'Event: $selectedEvent',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        fontFamily: 'Roboto',
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Divider(
+                        color: Color.fromARGB(
+                            156, 94, 83, 83), // Customize the color
+                        thickness: 1, // Customize the thickness
                       ),
                     ),
-                    Text(
-                      'Location: ${location}',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        fontFamily: 'Roboto',
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.celebration_outlined),
+                          const SizedBox(width: 8.0),
+                          Text(
+                            'Event: $selectedEvent',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.lato(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                     Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Available Dates:',
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Divider(
+                        color: Color.fromARGB(
+                            156, 94, 83, 83), // Customize the color
+                        thickness: 1, // Customize the thickness
+                      ),
                     ),
-                    const SizedBox(height: 4),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: dates.map((date) {
-                        return Text(
-                          date,
-                          style: const TextStyle(fontSize: 16),
-                        );
-                      }).toList(),
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Icon(Icons.place_outlined),
+                          const SizedBox(width: 8.0,),
+                          Text(
+                            'Location: ${location}',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.lato(
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
-              ],
-            ),
-          ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Divider(
+                        color: Color.fromARGB(
+                            156, 94, 83, 83), // Customize the color
+                        thickness: 1, // Customize the thickness
+                      ),
+                    ),
+                    Container(
+                      padding: const EdgeInsets.all(8.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          
+                          color: Colors.deepPurpleAccent, // Border color
+                          width: 2.0, // Border width
+                        ),
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  const Icon(Icons.date_range_rounded),
+                                  Text(
+                                    'Booking Date: ',
+                                    style: GoogleFonts.lato(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.indigoAccent[200]
+                                    ),
+                                  ),
+                                  Row(
+                                    
+                                    children: dates.map((date) {
+                                      return Text(
+                                        date,
+                                        style: GoogleFonts.lato(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.red
+                                        ),
+                                      );
+                                    }).toList(),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -127,40 +211,4 @@ class BookingScreen extends StatelessWidget {
   }
 }
 
-class BackgroundPainter extends CustomPainter {
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.grey.withOpacity(0.5)
-      ..style = PaintingStyle.fill;
 
-    // Draw a circle
-    canvas.drawCircle(
-      Offset(size.width * 0.3, size.height * 0.2),
-      100,
-      paint,
-    );
-
-    // Draw a rectangle
-    canvas.drawRect(
-      Rect.fromCenter(
-        center: Offset(size.width * 0.7, size.height * 0.8),
-        width: 200,
-        height: 150,
-      ),
-      paint,
-    );
-
-    // Draw another circle
-    canvas.drawCircle(
-      Offset(size.width * 0.8, size.height * 0.3),
-      50,
-      paint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return false;
-  }
-}

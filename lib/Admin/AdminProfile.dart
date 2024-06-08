@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class AdminProfileScreen extends StatefulWidget {
   const AdminProfileScreen({super.key});
@@ -13,9 +14,7 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Admin Profile'),
-      ),
+      
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: FutureBuilder<DocumentSnapshot>(
@@ -45,19 +44,25 @@ class _AdminProfileScreenState extends State<AdminProfileScreen> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                Text(
-                  'Name: ${data['name']}',
-                  style: const TextStyle(fontSize: 20),
+                Center(
+                  child: Text(
+                    'Name: ${data['name']}',
+                    style: GoogleFonts.outfit(fontSize: 20),
+                  ),
                 ),
                 const SizedBox(height: 10),
-                Text(
-                  'Email: ${data['email']}',
-                  style: const TextStyle(fontSize: 20),
+                Center(
+                  child: Text(
+                    'Email: ${data['email']}',
+                    style:  GoogleFonts.outfit(fontSize: 20),
+                  ),
                 ),
                 const SizedBox(height: 10),
-                Text(
-                  'Phone Number: ${data['phone']}',
-                  style: const TextStyle(fontSize: 20),
+                Center(
+                  child: Text(
+                    'Phone Number: ${data['phone']}',
+                    style:  GoogleFonts.outfit(fontSize: 20),
+                  ),
                 ),
               ],
             );
