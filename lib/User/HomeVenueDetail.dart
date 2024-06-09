@@ -248,7 +248,7 @@ class VenueDetailsState extends State<VenueDetails> {
                 backgroundColor: Colors.deepPurpleAccent,
               ),
               child: const Text(
-                'Book Now',
+                'Send Booking Request',
                 style: TextStyle(color: Colors.white),
               ),
             ),
