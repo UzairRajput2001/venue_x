@@ -229,7 +229,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("   Register as an User !",
+                    Text("   Register as an User ",
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -257,7 +257,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Register as an Venue Owner !",
+                    Text("Register as an Venue Owner ",
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
